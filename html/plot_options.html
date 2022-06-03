@@ -445,12 +445,33 @@ div.tocify {
       <a href="spatial_interpolation.html">Spatial Interpolation</a>
     </li>
     <li class="divider"></li>
-    <li>
-      <a href="merging_rainfall.html">Merging Rainfall Data</a>
-    </li>
-    <li class="divider"></li>
-    <li>
-      <a href="merging_temperature.html">Merging Temperature Data</a>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Merging Climate Data</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="merging_rainfall.html">Rainfall</a>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <a href="merging_temperature.html">Temperature</a>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <a href="merging_rainfall.html">Relative humidity</a>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <a href="merging_temperature.html">Pressure</a>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <a href="merging_rainfall.html">Radiation</a>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <a href="merging_temperature.html">Wind data</a>
+        </li>
+      </ul>
     </li>
     <li class="divider"></li>
     <li>
@@ -590,21 +611,21 @@ div.tocify {
 </center>
 <p><br></p>
 <ol style="list-style-type: decimal">
-<li><p>You can select a predefined color key from the drop down list. CDT has 9 <a href="color_selection.html#preset.colkey">predefined color key</a> you can use. If you want to reverse the order of the colors, check <img src='images/common/checkbox.png' title='Checkbox' class='radiochckbutclass' /><span class="radiochcktextclass">   Reverse   </span>  .<br />
+<li><p>You can select a predefined color key from the drop down list. CDT has 9 <a href="color_selection.html#preset.colkey">predefined color key</a> you can use. If you want to reverse the order of the colors, check <img src='../images/common/checkbox.png' title='Checkbox' class='radiochckbutclass' /><span class="radiochcktextclass">   Reverse   </span>  .<br />
 Initial color key <img src="../images/options/inital_colkey.png" style="width:50.0%;height:5.0%" /><br />
 Reversed color key <img src="../images/options/reverse_colkey.png" style="width:50.0%;height:4.0%" /></p></li>
 <li><p>If you display a map of spatial points data in point type, this option will be shown allowing you to specify the size of the dot to display on the map. Type the size of the point you want, you also can use the up/down arrow to increase/decrease the size.</p></li>
-<li><p>If you want to create your own color key check <img src='images/common/checkbox.png' title='Checkbox' class='radiochckbutclass' /><span class="radiochcktextclass">   User customized colorkey   </span>  , it will open a dialog box allowing you to create the color key. See <a href="color_selection.html#custom.colkey">CDT customized color key</a> for more details on how to create the color key.</p></li>
-<li><p>After you plotting the map, the default levels used to plot the map are displayed in this text widget. If you want to change the levels at which the map will be displayed you can check <img src='images/common/checkbox.png' title='Checkbox' class='radiochckbutclass' /><span class="radiochcktextclass">   User customized levels   </span>   then type the values of the levels you want in the text widget, the values must be separated by comma. In case you use levels at irregular intervals, you can check <img src='images/common/checkbox.png' title='Checkbox' class='radiochckbutclass' /><span class="radiochcktextclass">   Equidistant colorkey breaks   </span>   to make a regular intervals when displayed on the color bar. The example below shows how to edit the color key levels.</p>
+<li><p>If you want to create your own color key check <img src='../images/common/checkbox.png' title='Checkbox' class='radiochckbutclass' /><span class="radiochcktextclass">   User customized colorkey   </span>  , it will open a dialog box allowing you to create the color key. See <a href="color_selection.html#custom.colkey">CDT customized color key</a> for more details on how to create the color key.</p></li>
+<li><p>After you plotting the map, the default levels used to plot the map are displayed in this text widget. If you want to change the levels at which the map will be displayed you can check <img src='../images/common/checkbox.png' title='Checkbox' class='radiochckbutclass' /><span class="radiochcktextclass">   User customized levels   </span>   then type the values of the levels you want in the text widget, the values must be separated by comma. In case you use levels at irregular intervals, you can check <img src='../images/common/checkbox.png' title='Checkbox' class='radiochckbutclass' /><span class="radiochcktextclass">   Equidistant colorkey breaks   </span>   to make a regular intervals when displayed on the color bar. The example below shows how to edit the color key levels.</p>
 <p>Let’s say you have a default levels set by CDT as follow</p>
 <p><img src="../images/options/levels_default.png" style="width:50.0%;height:14.0%" /></p>
 <p>The corresponding color bar displayed looks like the following image</p>
 <p><img src="../images/options/colorbar_default.png" style="width:50.0%;height:10.0%" /></p>
-<p>If you want to change this default levels, first check <img src='images/common/checkbox.png' title='Checkbox' class='radiochckbutclass' /><span class="radiochcktextclass">   User customized levels   </span>   then edit the values of the levels in text widget below. For example</p>
+<p>If you want to change this default levels, first check <img src='../images/common/checkbox.png' title='Checkbox' class='radiochckbutclass' /><span class="radiochcktextclass">   User customized levels   </span>   then edit the values of the levels in text widget below. For example</p>
 <p><img src="../images/options/levels_edit.png" style="width:50.0%;height:14.0%" /></p>
 <p>It displays the following color bar</p>
 <p><img src="../images/options/colorbar_edit.png" style="width:50.0%;height:10.0%" /></p>
-<p>The color bar is displayed in irregular interval, to change it into a regular interval, check <img src='images/common/checkbox.png' title='Checkbox' class='radiochckbutclass' /><span class="radiochcktextclass">   Equidistant colorkey breaks   </span>  .</p>
+<p>The color bar is displayed in irregular interval, to change it into a regular interval, check <img src='../images/common/checkbox.png' title='Checkbox' class='radiochckbutclass' /><span class="radiochcktextclass">   Equidistant colorkey breaks   </span>  .</p>
 <p><img src="../images/options/levels_interval.png" style="width:50.0%;height:14.0%" /></p>
 <p>The color bar is displayed like this</p>
 <p><img src="../images/options/colorbar_interval.png" style="width:50.0%;height:10.0%" /></p></li>
@@ -613,12 +634,12 @@ Reversed color key <img src="../images/options/reverse_colkey.png" style="width:
 <p><img src="../images/options/colorbar_lab_input.png" style="width:50.0%;height:6.0%" /></p>
 <p>The label will be displayed under the color bar if it is displayed in horizontal and in the right side for vertical.</p>
 <p><img src="../images/options/colorbar_lab_disp.png" style="width:50.0%;height:10.0%" /></p></li>
-<li><p>If this option is shown, it allows you to insert a scale bar to the map. Check <img src='images/common/checkbox.png' title='Checkbox' class='radiochckbutclass' /><span class="radiochcktextclass">   Add a map scale   </span>   and select the position of the scale bar.</p></li>
+<li><p>If this option is shown, it allows you to insert a scale bar to the map. Check <img src='../images/common/checkbox.png' title='Checkbox' class='radiochckbutclass' /><span class="radiochcktextclass">   Add a map scale   </span>   and select the position of the scale bar.</p></li>
 </ol>
 </div>
 <div id="shapefile-layer-options" class="section level2">
 <h2>Shapefile Layer Options <a name="shp.options"></a></h2>
-<p>When you add a shapefiles as layer to a map, you can change the color and width of the lines with the button <span class="buttonclass">   Options </span>   next to the check box <img src='images/common/checkbox.png' title='Checkbox' class='radiochckbutclass' /><span class="radiochcktextclass">   Add Shapefile to Map   </span>  .</p>
+<p>When you add a shapefiles as layer to a map, you can change the color and width of the lines with the button <span class="buttonclass">   Options </span>   next to the check box <img src='../images/common/checkbox.png' title='Checkbox' class='radiochckbutclass' /><span class="radiochcktextclass">   Add Shapefile to Map   </span>  .</p>
 <br>
 <center>
 <img src="../images/options/layer_shp_option.png" style="width:40.0%;height:23.0%" />

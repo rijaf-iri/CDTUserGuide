@@ -445,12 +445,33 @@ div.tocify {
       <a href="spatial_interpolation.html">Spatial Interpolation</a>
     </li>
     <li class="divider"></li>
-    <li>
-      <a href="merging_rainfall.html">Merging Rainfall Data</a>
-    </li>
-    <li class="divider"></li>
-    <li>
-      <a href="merging_temperature.html">Merging Temperature Data</a>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Merging Climate Data</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="merging_rainfall.html">Rainfall</a>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <a href="merging_temperature.html">Temperature</a>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <a href="merging_rainfall.html">Relative humidity</a>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <a href="merging_temperature.html">Pressure</a>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <a href="merging_rainfall.html">Radiation</a>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <a href="merging_temperature.html">Wind data</a>
+        </li>
+      </ul>
     </li>
     <li class="divider"></li>
     <li>
@@ -609,7 +630,7 @@ You can select a desired period for the final CDT station data output, even if e
 <p>In this case, each station has its own file. Several formats are possible, the data can have header (the column names) or not and can contain one or three variables in the following order: <em>precipitation - maximum temperature - minimum temperature</em>. Observations dates can be grouped or separated. The following examples give us an overview of possibility.</p>
 <div id="onestnseries">
 <!-- html table generated in R 4.0.3 by xtable 1.8-4 package -->
-<!-- Tue May 31 08:50:39 2022 -->
+<!-- Fri Jun  3 12:03:55 2022 -->
 <table id="cdtInputData" class="cdtInputData1" border="0">
 <caption align="top">
 Daily time series, 1 variable, grouped date, no header
@@ -664,7 +685,7 @@ Daily time series, 1 variable, grouped date, no header
 </tr>
 </table>
 <!-- html table generated in R 4.0.3 by xtable 1.8-4 package -->
-<!-- Tue May 31 08:50:39 2022 -->
+<!-- Fri Jun  3 12:03:55 2022 -->
 <table id="cdtInputData" class="cdtInputData1" border="0">
 <caption align="top">
 Daily time series, 3 variables, separated date, with header
@@ -797,7 +818,7 @@ tmin
 <p><br></p>
 <div id="onestnseries">
 <!-- html table generated in R 4.0.3 by xtable 1.8-4 package -->
-<!-- Tue May 31 08:50:39 2022 -->
+<!-- Fri Jun  3 12:03:55 2022 -->
 <table id="cdtInputData" class="cdtInputData1" border="0">
 <caption align="top">
 Dekadal time series, 1 variable, separated date, with header
@@ -888,7 +909,7 @@ tmax
 </tr>
 </table>
 <!-- html table generated in R 4.0.3 by xtable 1.8-4 package -->
-<!-- Tue May 31 08:50:39 2022 -->
+<!-- Fri Jun  3 12:03:55 2022 -->
 <table id="cdtInputData" class="cdtInputData1" border="0">
 <caption align="top">
 Dekadal time series, 3 variables, grouped date, no header
@@ -985,7 +1006,7 @@ Dekadal time series, 3 variables, grouped date, no header
 <p><br></p>
 <div id="onestnseries">
 <!-- html table generated in R 4.0.3 by xtable 1.8-4 package -->
-<!-- Tue May 31 08:50:39 2022 -->
+<!-- Fri Jun  3 12:03:55 2022 -->
 <table id="cdtInputData" class="cdtInputData1" border="0">
 <caption align="top">
 Monthly time series, 1 variable, separated date, no header
@@ -1058,7 +1079,7 @@ Monthly time series, 1 variable, separated date, no header
 </tr>
 </table>
 <!-- html table generated in R 4.0.3 by xtable 1.8-4 package -->
-<!-- Tue May 31 08:50:39 2022 -->
+<!-- Fri Jun  3 12:03:55 2022 -->
 <table id="cdtInputData" class="cdtInputData1" border="0">
 <caption align="top">
 Monthly time series, 3 variables, grouped date, with header
