@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Options</title>
+
+<script src="../libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="../libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="../libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="../libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="../libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="../libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="../libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="../libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="../libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="../libs/navigation-1.1/tabsets.js"></script>
+<link href="../libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="../libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="../libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="../libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="../css/styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "../index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../index.html">CDT User Guide</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    CDT
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="cdt_file_menu.html">CDT GUI</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="cdt_data_input.html">CDT Data</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Data Preparation
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="format_cdt_data.html">Format CDTs Input Data</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="manipulate_cdt_data.html">Manipulating CDT Station Data</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="assess_availability.html">Assess Data Availability</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="download_data.html">Download Data</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="aggregate_ts_data.html">Aggregate Data</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="regrid_spatial_data.html">Regrid Spatial Data</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="transform_cdt_dataset.html">Transform NetCDF files into CDT Dataset</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="split_netcdf_files.html">Split NetCDF files into CDT NetCDF format</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="combine_netcdf_files.html">Combine multiple CDT NetCDF format files into one</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="data_extraction.html">Data Extraction</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="data_operation.html">Data Operation</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="blanking_girdded_data.html">Blank Grid Outside Polygons</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="data_conversion.html">Data Format Conversion</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Quality Control
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="check_stations_coords.html">Check Stations Coordinates</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="qc_false_zero.html">False-Zeros Check for daily rainfall</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="qc_outliers_precip.html">Outliers Check for rainfall data</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="qc_outliers_temp.html">Outliers Check for temperatures data</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="homogeneity_test.html">Homogeneity Test</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Gridding
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="spatial_interpolation.html">Spatial Interpolation</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="merging_rainfall.html">Merging Rainfall Data</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="merging_temperature.html">Merging Temperature Data</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="scale_merged_data.html">Scale Merged Data</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="cross_validation.html">Merging - Cross-Validation</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Validation
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="validation_cdt_frmt.html">Spatial Points Data (CDT Format)</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="validation_ncdf_frmt.html">Gridded Data (NetCDF Format)</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="validation_multi_data.html">Validate multiple data sets</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Analysis
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="summary_statistics.html">Summary Statistics</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="derived_climate_variables.html">Derived Climate Variables</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="climatologies_anomalies.html">Climatologies and Anomalies</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="spatial_analysis.html">Spatial Analysis</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="daily_rainfall_analysis.html">Daily Rainfall Analysis</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="rainy_season_characteristics.html">Rainy Season Characteristics</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="rainy_season_analysis.html">Rainy Season Analysis</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="climate_extremes_indices.html">Climate Extremes Indices</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="drought_indices.html">Drought Indices</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Visualization
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="plot_station_data.html">Plot CDT Station Data</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="plot_cdt_dataset.html">Plot CDT Gridded Dataset</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="plot_ncdf_one.html">Plot NetCDF Data (One File)</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="plot_ncdf_seq.html">Plot NetCDF Data (Sequential Files)</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="plot_ncdf_vars.html">Plot NetCDF Data (Multiple Variables)</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="plot_multiple_dataset.html">Plot multiple data sets</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/rijaf-iri/CDT">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Options</h1>
+
+</div>
+
+
+<div id="map-options" class="section level2">
+<h2>Map Options <a name="map.options"></a></h2>
+<p>Each time you display a map on CDT, there is a button <span class="buttonclass">   Options </span>   next to the button used to display the map. It allows you to change the default color key, the intervals of values at which the map will be display, and the labels of x and y axis.</p>
+<p>Clicking on the button <span class="buttonclass">   Options </span>   will opens the following dialog box.</p>
+<br>
+<center>
+<img src="../images/options/map_options.png" style="width:60.0%;height:57.0%" />
+</center>
+<p><br></p>
+<ol style="list-style-type: decimal">
+<li><p>You can select a predefined color key from the drop down list. CDT has 9 <a href="color_selection.html#preset.colkey">predefined color key</a> you can use. If you want to reverse the order of the colors, check <img src='images/common/checkbox.png' title='Checkbox' class='radiochckbutclass' /><span class="radiochcktextclass">   Reverse   </span>  .<br />
+Initial color key <img src="../images/options/inital_colkey.png" style="width:50.0%;height:5.0%" /><br />
+Reversed color key <img src="../images/options/reverse_colkey.png" style="width:50.0%;height:4.0%" /></p></li>
+<li><p>If you display a map of spatial points data in point type, this option will be shown allowing you to specify the size of the dot to display on the map. Type the size of the point you want, you also can use the up/down arrow to increase/decrease the size.</p></li>
+<li><p>If you want to create your own color key check <img src='images/common/checkbox.png' title='Checkbox' class='radiochckbutclass' /><span class="radiochcktextclass">   User customized colorkey   </span>  , it will open a dialog box allowing you to create the color key. See <a href="color_selection.html#custom.colkey">CDT customized color key</a> for more details on how to create the color key.</p></li>
+<li><p>After you plotting the map, the default levels used to plot the map are displayed in this text widget. If you want to change the levels at which the map will be displayed you can check <img src='images/common/checkbox.png' title='Checkbox' class='radiochckbutclass' /><span class="radiochcktextclass">   User customized levels   </span>   then type the values of the levels you want in the text widget, the values must be separated by comma. In case you use levels at irregular intervals, you can check <img src='images/common/checkbox.png' title='Checkbox' class='radiochckbutclass' /><span class="radiochcktextclass">   Equidistant colorkey breaks   </span>   to make a regular intervals when displayed on the color bar. The example below shows how to edit the color key levels.</p>
+<p>Let’s say you have a default levels set by CDT as follow</p>
+<p><img src="../images/options/levels_default.png" style="width:50.0%;height:14.0%" /></p>
+<p>The corresponding color bar displayed looks like the following image</p>
+<p><img src="../images/options/colorbar_default.png" style="width:50.0%;height:10.0%" /></p>
+<p>If you want to change this default levels, first check <img src='images/common/checkbox.png' title='Checkbox' class='radiochckbutclass' /><span class="radiochcktextclass">   User customized levels   </span>   then edit the values of the levels in text widget below. For example</p>
+<p><img src="../images/options/levels_edit.png" style="width:50.0%;height:14.0%" /></p>
+<p>It displays the following color bar</p>
+<p><img src="../images/options/colorbar_edit.png" style="width:50.0%;height:10.0%" /></p>
+<p>The color bar is displayed in irregular interval, to change it into a regular interval, check <img src='images/common/checkbox.png' title='Checkbox' class='radiochckbutclass' /><span class="radiochcktextclass">   Equidistant colorkey breaks   </span>  .</p>
+<p><img src="../images/options/levels_interval.png" style="width:50.0%;height:14.0%" /></p>
+<p>The color bar is displayed like this</p>
+<p><img src="../images/options/colorbar_interval.png" style="width:50.0%;height:10.0%" /></p></li>
+<li><p>If you want to add a title to the map, check the box in the left and type the title in the input text in the right. If CDT displays a default title to the map and you do not want to add title, check the box and leave the input text empty.</p></li>
+<li><p>If you want to add label to the color bar, check the box in the left and type the label in the input text in the right.</p>
+<p><img src="../images/options/colorbar_lab_input.png" style="width:50.0%;height:6.0%" /></p>
+<p>The label will be displayed under the color bar if it is displayed in horizontal and in the right side for vertical.</p>
+<p><img src="../images/options/colorbar_lab_disp.png" style="width:50.0%;height:10.0%" /></p></li>
+<li><p>If this option is shown, it allows you to insert a scale bar to the map. Check <img src='images/common/checkbox.png' title='Checkbox' class='radiochckbutclass' /><span class="radiochcktextclass">   Add a map scale   </span>   and select the position of the scale bar.</p></li>
+</ol>
+</div>
+<div id="shapefile-layer-options" class="section level2">
+<h2>Shapefile Layer Options <a name="shp.options"></a></h2>
+<p>When you add a shapefiles as layer to a map, you can change the color and width of the lines with the button <span class="buttonclass">   Options </span>   next to the check box <img src='images/common/checkbox.png' title='Checkbox' class='radiochckbutclass' /><span class="radiochcktextclass">   Add Shapefile to Map   </span>  .</p>
+<br>
+<center>
+<img src="../images/options/layer_shp_option.png" style="width:40.0%;height:23.0%" />
+</center>
+<p><br></p>
+<ol style="list-style-type: decimal">
+<li><p>To change the color, click on the colored rectangle. It opens a <a href="color_selection.html#color.picker">color picker</a> allowing to choose the color.</p></li>
+<li><p>Type the width of the lines you want, you also can use the up/down arrow to increase/decrease the width.</p></li>
+</ol>
+</div>
+
+<footer class="navbar navbar-inverse  navbar-fixed-bottom">
+    <p>
+        <small class="footer">
+            <a href="../index.html">Climate Data Tools, 2019</a> &nbsp;
+            <a class="navbar-footer" href="https://iri.columbia.edu/"><img src="../images/common/iri_logo_full.gif" alt="IRI" /></a>
+        </small>
+    </p>
+</footer>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "../libs/mathjax-local/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

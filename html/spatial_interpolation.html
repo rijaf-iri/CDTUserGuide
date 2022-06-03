@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Spatial Interpolation</title>
+
+<script src="../libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="../libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="../libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="../libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="../libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="../libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="../libs/navigation-1.1/tabsets.js"></script>
+<link href="../libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="../libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="../libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="../libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="../css/styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "../index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../index.html">CDT User Guide</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    CDT
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="cdt_file_menu.html">CDT GUI</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="cdt_data_input.html">CDT Data</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Data Preparation
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="format_cdt_data.html">Format CDTs Input Data</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="manipulate_cdt_data.html">Manipulating CDT Station Data</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="assess_availability.html">Assess Data Availability</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="download_data.html">Download Data</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="aggregate_ts_data.html">Aggregate Data</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="regrid_spatial_data.html">Regrid Spatial Data</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="transform_cdt_dataset.html">Transform NetCDF files into CDT Dataset</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="split_netcdf_files.html">Split NetCDF files into CDT NetCDF format</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="combine_netcdf_files.html">Combine multiple CDT NetCDF format files into one</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="data_extraction.html">Data Extraction</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="data_operation.html">Data Operation</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="blanking_girdded_data.html">Blank Grid Outside Polygons</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="data_conversion.html">Data Format Conversion</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Quality Control
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="check_stations_coords.html">Check Stations Coordinates</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="qc_false_zero.html">False-Zeros Check for daily rainfall</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="qc_outliers_precip.html">Outliers Check for rainfall data</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="qc_outliers_temp.html">Outliers Check for temperatures data</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="homogeneity_test.html">Homogeneity Test</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Gridding
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="spatial_interpolation.html">Spatial Interpolation</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Merging Climate Data</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="merging_rainfall.html">Rainfall</a>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <a href="merging_temperature.html">Temperature</a>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <a href="merging_rainfall.html">Relative humidity</a>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <a href="merging_temperature.html">Pressure</a>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <a href="merging_rainfall.html">Radiation</a>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <a href="merging_temperature.html">Wind data</a>
+        </li>
+      </ul>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="scale_merged_data.html">Scale Merged Data</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="cross_validation.html">Merging - Cross-Validation</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Validation
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="validation_cdt_frmt.html">Spatial Points Data (CDT Format)</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="validation_ncdf_frmt.html">Gridded Data (NetCDF Format)</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="validation_multi_data.html">Validate multiple data sets</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Analysis
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="summary_statistics.html">Summary Statistics</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="derived_climate_variables.html">Derived Climate Variables</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="climatologies_anomalies.html">Climatologies and Anomalies</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="spatial_analysis.html">Spatial Analysis</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="daily_rainfall_analysis.html">Daily Rainfall Analysis</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="rainy_season_characteristics.html">Rainy Season Characteristics</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="rainy_season_analysis.html">Rainy Season Analysis</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="climate_extremes_indices.html">Climate Extremes Indices</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="drought_indices.html">Drought Indices</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Visualization
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="plot_station_data.html">Plot CDT Station Data</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="plot_cdt_dataset.html">Plot CDT Gridded Dataset</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="plot_ncdf_one.html">Plot NetCDF Data (One File)</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="plot_ncdf_seq.html">Plot NetCDF Data (Sequential Files)</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="plot_ncdf_vars.html">Plot NetCDF Data (Multiple Variables)</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="plot_multiple_dataset.html">Plot multiple data sets</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/rijaf-iri/CDT">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Spatial Interpolation</h1>
+
+</div>
+
+
+<p>A spatial interpolation is the estimation of the unknown value of a point by using the measured points in the study area. To interpolate a spatial points data (stations observation) into gridded data, use the menu <span class="menuselection">Gridding ‣ Spatial Interpolation</span>  . It displays a tabbed widget on the left panel, allows to enter the inputs data, set the interpolation parameters and display maps of the interpolated data.</p>
+<p><br />
+<br />
+The tab <span class="ongletclass">   Input Data   </span>   allows to specify the input station data and the interpolation parameters.</p>
+<br>
+<center>
+<img src="../images/gridding/spatial_interpolation/sp_interp_input.png" style="width:57.0%;height:70.0%" />
+</center>
+<p><br></p>
+<ol style="list-style-type: decimal">
+<li><p>Select the temporal resolution of the input data in CDT stations data format. The available temporal resolution are: minutes, hourly, daily, pentad, dekadal, monthly data and others (seasonal, annual, …).</p></li>
+<li><p>In case of minutes and hourly, select here the time step of the input data.</p></li>
+<li><p>Select the CDT station data to interpolate with the drop down list if it is already loaded, or open it through <span class="buttonclass">   … </span>  .</p></li>
+<li><p>Set the start and end date of the period to interpolate. See <a href="cdt_data_input.html#cdt.date.range">Setting date range</a> for more details.</p></li>
+<li><p>Click on the button <span class="buttonclass">   Interpolation Parameters </span>   to set the parameters to be used to interpolate the station data. It opens a dialog box.</p>
+<p>CDT has 7 spatial interpolation methods: <em>Inverse Distance Weighted</em>, <em>Ordinary Kriging</em>, <em>Universal Kriging</em>, <em>Modified Shepard interpolation</em>, <em>Spheremap interpolation method</em>, <em>Nearest Neighbor</em> and <em>Nearest Neighbor with elevation - 3D</em>.</p>
+<p>By default CDT uses a local interpolation technique, therefore, you have to provide the minimum and maximum number of stations used to interpolate a grid point, and the maximum distance within which the stations are selected. See <a href="interpolation_methods.html#interp.local">spatial interpolation methods</a> for further details.</p>
+<p><br />
+<br />
+<strong><em>Inverse Distance Weighted</em></strong></p>
+<p><br></p>
+<center>
+<p><img src="../images/gridding/spatial_interpolation/interp_mthd_idw.png" style="width:50.0%;height:24.0%" /></p>
+</center>
+<p><br></p>
+<ul>
+<li>(<strong>a</strong>) Select <a href="interpolation_methods.html#interp.idw"><em>Inverse Distance Weighted</em></a> as interpolation method from drop down list.</li>
+<li>(<strong>b</strong>) Enter the minimum number of neighbor stations <em>nmin</em> to interpolate a grid node.</li>
+<li>(<strong>c</strong>) Enter the minimum number of neighbor stations <em>nmax</em> to interpolate a grid node.</li>
+<li>(<strong>d</strong>) Enter the maximum distance <em>maxdist</em> (units in decimal degree) to define the search radius used to select the stations to interpolate a grid node.</li>
+<li>(<strong>e</strong>) Check this box if you want to apply a spatial smoothing to the interpolated data. To define the block type and size, use the function <code>interpolation.options()</code> on the R console, and change the arguments <code>blockType</code> and <code>blockSize</code>. For more details on how the block is created, see <a href="interpolation_methods.html#Spatial.smoothing">the method CDT used for spatial smoothing</a>.</li>
+</ul>
+<p><br />
+<br />
+<strong><em>Modified Shepard interpolation</em></strong></p>
+<p><br></p>
+<center>
+<p><img src="../images/gridding/spatial_interpolation/interp_mthd_shepard.png" style="width:50.0%;height:21.0%" /></p>
+</center>
+<p><br></p>
+<ul>
+<li>(<strong>a</strong>) Select <a href="interpolation_methods.html#interp.shpd"><em>Modified Shepard interpolation</em></a> as interpolation method from drop down list.</li>
+<li>(<strong>b</strong>) Enter the minimum number of neighbor stations <em>nmin</em> to interpolate a grid node.</li>
+<li>(<strong>c</strong>) Enter the minimum number of neighbor stations <em>nmax</em> to interpolate a grid node.</li>
+</ul>
+<p><br />
+<br />
+<strong><em>Spheremap interpolation method</em></strong></p>
+<p><br></p>
+<center>
+<p><img src="../images/gridding/spatial_interpolation/interp_mthd_shperemap.png" style="width:50.0%;height:21.0%" /></p>
+</center>
+<p><br></p>
+<ul>
+<li>(<strong>a</strong>) Select <a href="interpolation_methods.html#interp.sphrmap"><em>Spheremap interpolation method</em></a> as interpolation method from drop down list.</li>
+<li>(<strong>b</strong>) Enter the minimum number of neighbor stations <em>nmin</em> to interpolate a grid node.</li>
+<li>(<strong>c</strong>) Enter the minimum number of neighbor stations <em>nmax</em> to interpolate a grid node.</li>
+</ul>
+<p><br />
+<br />
+<strong><em>Ordinary Kriging</em></strong></p>
+<p><br></p>
+<center>
+<p><img src="../images/gridding/spatial_interpolation/interp_mthd_ok.png" style="width:50.0%;height:31.0%" /></p>
+</center>
+<p><br></p>
+<ul>
+<li>(<strong>a</strong>) Select <a href="interpolation_methods.html#interp.kriging"><em>Ordinary Kriging</em></a> as interpolation method from drop down list.</li>
+<li>(<strong>b</strong>) Enter the minimum number of neighbor stations <em>nmin</em> to interpolate a grid node.</li>
+<li>(<strong>c</strong>) Enter the minimum number of neighbor stations <em>nmax</em> to interpolate a grid node.</li>
+<li>(<strong>d</strong>) Enter the maximum distance <em>maxdist</em> (units in decimal degree) to define the search radius used to select the stations to interpolate a grid node.</li>
+<li>(<strong>e</strong>) Check this box if you want to apply a spatial smoothing to the interpolated data. To define the block type and size, use the function <code>interpolation.options()</code> on the R console, and change the arguments <code>blockType</code> and <code>blockSize</code>. For more details on how the block is created, see <a href="interpolation_methods.html#Spatial.smoothing">the method CDT used for spatial smoothing</a>.</li>
+<li>(<strong>f</strong>) Enter the list of candidate variogram models to be selected, the list must be separated by a comma. CDT use the function <code>autofitVariogram</code> from the package <code>automap</code> to fit the variogram. The best fitting will be used for the interpolation. A list of all permitted variogram models is available by typing <code>vgm()</code> on the R console.</li>
+<li>(<strong>g</strong>) Enter the minimum number of stations with non-missing data to be used to compute the sample variogram.</li>
+</ul>
+<p><br />
+<br />
+<strong><em>Universal Kriging</em></strong></p>
+<p><br></p>
+<center>
+<p><img src="../images/gridding/spatial_interpolation/interp_mthd_uk.png" style="width:50.0%;height:42.0%" /></p>
+</center>
+<p><br></p>
+<ul>
+<li>(<strong>a</strong>) Select <a href="interpolation_methods.html#interp.kriging"><em>Universal Kriging</em></a> as interpolation method from drop down list.</li>
+<li>(<strong>b</strong>) Enter the minimum number of neighbor stations <em>nmin</em> to interpolate a grid node.</li>
+<li>(<strong>c</strong>) Enter the minimum number of neighbor stations <em>nmax</em> to interpolate a grid node.</li>
+<li>(<strong>d</strong>) Check this box if you want to apply a spatial smoothing to the interpolated data. To define the block type and size, use the function <code>interpolation.options()</code> on the R console, and change the arguments <code>blockType</code> and <code>blockSize</code>. For more details on how the block is created, see <a href="interpolation_methods.html#Spatial.smoothing">the method CDT used for spatial smoothing</a>.</li>
+<li>(<strong>e</strong>) Enter the list of candidate variogram models to be selected, the list must be separated by a comma. CDT use the function <code>autofitVariogram</code> from the package <code>automap</code> to fit the variogram. The best fitting will be used for the interpolation. A list of all permitted variogram models is available by typing <code>vgm()</code> on the R console.</li>
+<li>(<strong>f</strong>) Enter the minimum number of stations with non-missing data to be used to compute the sample variogram.</li>
+<li>(<strong>g</strong>) Check the auxiliaries variables to be used. You can choose between: elevation data; slope and aspect computed from the elevation data, see the function <code>terrain</code> from the <code>raster</code> package fro more details; longitude and latitude.</li>
+<li>(<strong>h</strong>) In case you include elevation, slope and/or aspect, you have to provide the elevation data in NetCDF format, select it from the drop-down list if it is already loaded or open it from the browse button <span class="buttonclass">   … </span>  .</li>
+</ul>
+<p><br />
+<br />
+<strong><em>Nearest Neighbor</em></strong></p>
+<p><br></p>
+<center>
+<p><img src="../images/gridding/spatial_interpolation/interp_mthd_nn.png" style="width:50.0%;height:21.0%" /></p>
+</center>
+<p><br></p>
+<ul>
+<li>(<strong>a</strong>) Select <a href="interpolation_methods.html#interp.nn"><em>Nearest Neighbor</em></a> as interpolation method from drop down list.</li>
+<li>(<strong>b</strong>) Enter the maximum distance (units in decimal degree) to define the search radius used to select the station to interpolate a grid node.</li>
+</ul>
+<p><br />
+<br />
+<strong><em>Nearest Neighbor with elevation - 3D</em></strong></p>
+<p><br></p>
+<center>
+<p><img src="../images/gridding/spatial_interpolation/interp_mthd_nn3d.png" style="width:50.0%;height:29.0%" /></p>
+</center>
+<p><br></p>
+<ul>
+<li>(<strong>a</strong>) Select <a href="interpolation_methods.html#interp.nn"><em>Nearest Neighbor with elevation - 3D</em></a> as interpolation method from drop down list.</li>
+<li>(<strong>b</strong>) Enter the maximum distance (units in decimal degree) to define the search radius used to select the station to interpolate a grid node.</li>
+<li>(<strong>c</strong>) Select the elevation data, in NetCDF format, from the drop-down list if it is already loaded or open it from the browse button <span class="buttonclass">   … </span>  .</li>
+</ul></li>
+<li><p>Click on the button <span class="buttonclass">   Create Grid for Interpolation </span>   to provide the grid to be used to interpolate the data. See <a href="interpolation_grid.html">grid creation</a> for the grid nodes creation.</p></li>
+<li><p>In the case where the variable to be interpolated cannot be negative or below a certain value, check <img src='images/common/checkbox.png' title='Checkbox' class='radiochckbutclass' /><span class="radiochcktextclass">   Change negative values to   </span>  , enter the value you want to change the negative values in the activated input field.</p></li>
+<li><p>To mask the grid outside a given polygons, check <img src='images/common/checkbox.png' title='Checkbox' class='radiochckbutclass' /><span class="radiochcktextclass">   Blank grid outside the Shapefile   </span>  , this will activate the drop down list below allowing you to provide the Shapefile to be used. See the <a href="blanking_options.html">blanking options</a> to control the buffer outside the polygons.</p></li>
+<li><p>Specify the folder to save the output by browsing it from the button <img src="../images/common/browsefiledir.png" title="Browse for a file" id="cdtIconsBr" class="cdtIconsBr" /> or typing the full path to the folder.</p></li>
+</ol>
+<p>When you finish to set everything in this tab, click on the button <span class="buttonclass">      Interpolate    </span>   to start the interpolation process.</p>
+<p>This creates a folder named <strong>INTEPORLATION_</strong>&lt;<strong><em>file name of station data</em></strong>&gt; under the folder you provided (<strong>9</strong>) to save the outputs. Inside this folder 2 directories and 1 file are created:</p>
+<ul>
+<li><strong>CDTDATASET</strong>: directory containing all the required files used by CDT; for ordinary and universal kriging, the fitted variogram models are saved under this folder inside the file <em>Fitted_variogram.rds</em></li>
+<li><strong>DATA_NetCDF</strong>:directory containing the interpolated data in netCDF format</li>
+<li><strong>SpatialInterpolation.rds</strong>: an index file, you will need to reload the outputs of the interpolation if you want to display it later</li>
+</ul>
+<p><br />
+<br />
+The tab <span class="ongletclass">   Maps   </span>   allows to display the maps of the interpolated data.</p>
+<br>
+<center>
+<img src="../images/gridding/spatial_interpolation/sp_interp_maps.png" style="width:60.0%;height:54.0%" />
+</center>
+<p><br></p>
+<ol style="list-style-type: decimal">
+<li><p>If you have already performed the interpolation before and you want to display the maps of the interpolated data,<br />
+check <img src='images/common/checkbox.png' title='Checkbox' class='radiochckbutclass' /><span class="radiochcktextclass">   Data already computed   </span>  , this will activated the button <span class="buttonclass">   Load Data </span>   allowing you to load the index file of the interpolated data. Browse the file <em><strong>SpatialInterpolation.rds</strong></em> via the open dialog box.</p></li>
+<li><p>Enter the date you want to plot in the input fields then click the button <span class="buttonclass">      PLOT    </span>   to display the map. You can use the button <span class="buttonclass">     &lt;&lt;   </span>   to display the map of the previous interpolated data and <span class="buttonclass">     &gt;&gt;   </span>   for the next date.</p></li>
+<li><p>Select the way the map will be displayed, in <em>one panel</em> or <em>a separate panels</em>.</p></li>
+</ol>
+<table>
+<thead>
+<tr class="header">
+<th align="center">one panel</th>
+<th align="center">separate panels</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><img src="../images/gridding/spatial_interpolation/interp_one_panel.png" /></td>
+<td align="center"><img src="../images/gridding/spatial_interpolation/interp_separate_panel.png" /></td>
+</tr>
+</tbody>
+</table>
+<ol start="4" style="list-style-type: decimal">
+<li><p>Select the type of map to display for the stations data, available options are <em>Points</em> and <em>Pixels</em>. See <a href="plot_types.html#plot.type.stn">the type of plot for station data</a>.</p></li>
+<li><p>Select the type of map to display for the gridded data, available options are <em>Pixels</em> and <em>FilledContour</em>. See <a href="plot_types.html#plot.type.grd">the type of plot for gridded data</a>.</p></li>
+<li><p>Click on the button <span class="buttonclass">     Options   </span>   to change the color bar, title and labels of the maps. For more details on how to change the options, see <a href="plot_options.html#map.options">map options</a>.</p></li>
+</ol>
+<p><br />
+</p>
+
+<footer class="navbar navbar-inverse  navbar-fixed-bottom">
+    <p>
+        <small class="footer">
+            <a href="../index.html">Climate Data Tools, 2019</a> &nbsp;
+            <a class="navbar-footer" href="https://iri.columbia.edu/"><img src="../images/common/iri_logo_full.gif" alt="IRI" /></a>
+        </small>
+    </p>
+</footer>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "../libs/mathjax-local/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

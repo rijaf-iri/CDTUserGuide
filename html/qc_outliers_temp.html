@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Outliers Check for temperatures data</title>
+
+<script src="../libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="../libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="../libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="../libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="../libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="../libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="../libs/navigation-1.1/tabsets.js"></script>
+<link href="../libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="../libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="../libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="../libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="../css/styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "../index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../index.html">CDT User Guide</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    CDT
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="cdt_file_menu.html">CDT GUI</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="cdt_data_input.html">CDT Data</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Data Preparation
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="format_cdt_data.html">Format CDTs Input Data</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="manipulate_cdt_data.html">Manipulating CDT Station Data</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="assess_availability.html">Assess Data Availability</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="download_data.html">Download Data</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="aggregate_ts_data.html">Aggregate Data</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="regrid_spatial_data.html">Regrid Spatial Data</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="transform_cdt_dataset.html">Transform NetCDF files into CDT Dataset</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="split_netcdf_files.html">Split NetCDF files into CDT NetCDF format</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="combine_netcdf_files.html">Combine multiple CDT NetCDF format files into one</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="data_extraction.html">Data Extraction</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="data_operation.html">Data Operation</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="blanking_girdded_data.html">Blank Grid Outside Polygons</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="data_conversion.html">Data Format Conversion</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Quality Control
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="check_stations_coords.html">Check Stations Coordinates</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="qc_false_zero.html">False-Zeros Check for daily rainfall</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="qc_outliers_precip.html">Outliers Check for rainfall data</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="qc_outliers_temp.html">Outliers Check for temperatures data</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="homogeneity_test.html">Homogeneity Test</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Gridding
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="spatial_interpolation.html">Spatial Interpolation</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="merging_rainfall.html">Merging Rainfall Data</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="merging_temperature.html">Merging Temperature Data</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="scale_merged_data.html">Scale Merged Data</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="cross_validation.html">Merging - Cross-Validation</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Validation
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="validation_cdt_frmt.html">Spatial Points Data (CDT Format)</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="validation_ncdf_frmt.html">Gridded Data (NetCDF Format)</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="validation_multi_data.html">Validate multiple data sets</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Analysis
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="summary_statistics.html">Summary Statistics</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="derived_climate_variables.html">Derived Climate Variables</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="climatologies_anomalies.html">Climatologies and Anomalies</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="spatial_analysis.html">Spatial Analysis</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="daily_rainfall_analysis.html">Daily Rainfall Analysis</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="rainy_season_characteristics.html">Rainy Season Characteristics</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="rainy_season_analysis.html">Rainy Season Analysis</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="climate_extremes_indices.html">Climate Extremes Indices</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="drought_indices.html">Drought Indices</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Visualization
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="plot_station_data.html">Plot CDT Station Data</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="plot_cdt_dataset.html">Plot CDT Gridded Dataset</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="plot_ncdf_one.html">Plot NetCDF Data (One File)</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="plot_ncdf_seq.html">Plot NetCDF Data (Sequential Files)</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="plot_ncdf_vars.html">Plot NetCDF Data (Multiple Variables)</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="plot_multiple_dataset.html">Plot multiple data sets</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/rijaf-iri/CDT">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Outliers Check for temperatures data</h1>
+
+</div>
+
+
+<p>To check the outliers for temperatures data, use the menu <span class="menuselection">Quality Control ‣ Outliers Check for temperatures data</span>  . It will display a tabbed widget on the left panel, allows to enter the inputs data and parameters.</p>
+<p>The tab <span class="ongletclass">   Data   </span>   allows to enter the inputs data and set the parameters for the QC.</p>
+<br>
+<center>
+<img src="../images/quality_control/qc_outliers_temp/qc-tt_tab-data.gif" style="width:50.0%;height:50.0%" />
+</center>
+<p><br></p>
+<ol style="list-style-type: decimal">
+<li>Select the time step of the station data to be checked.</li>
+<li>Choose the variable to be checked between the maximum and minimum temperature.</li>
+<li>Select from the drop-down list the file containing the station data to be checked if it is already loaded, or open it from the browse button <img src="../images/common/browsefiledir.png" title="Browse for a file" id="cdtIconsBr" class="cdtIconsBr" /> on the right.
+<ul>
+<li>If TMAX is selected in (<strong>2</strong>), this should be the file containing the maximum temperature.</li>
+<li>If TMIN is selected in (<strong>2</strong>), this should be the file containing the minimum temperature.</li>
+</ul></li>
+<li>Select from the drop-down list the file containing the station data to be used to check if the minimum temperature is greater than the maximum.
+<ul>
+<li>If TMAX is selected in (<strong>2</strong>), this should be the file containing the minimum temperature.</li>
+<li>If TMIN is selected in (<strong>2</strong>), this should be the file containing the maximum temperature.</li>
+</ul></li>
+<li>Click on this button to set the parameters to perform the outliers check</li>
+</ol>
+<br>
+<center>
+<img src="../images/quality_control/qc_outliers_temp/qc-tt_outliers-pars.gif" style="width:50.0%;height:50.0%" />
+</center>
+<p><br></p>
+<div style="display: inline-block; float: right; width: 95%">
+<ul>
+<li>(<strong>a</strong>) Specify the minimum possible value of the temperature. It depends on the time step of the input data and the region or country.</li>
+<li>(<strong>b</strong>) Specify the maximum possible value of the temperature.</li>
+<li>(<strong>c</strong>) Length of the time window to be used to perform a sliding regression. The unit is days if the input is a daily data.</li>
+<li>(<strong>d</strong>) Enter the multiplier of the standard deviation to perform the temporal check. You can use a real number like 3.5. In a normal distribution 99.73% of the data should be within +/- 3 times of the standard deviation around the mean. It will be converted to a confidence level to conduct the test.</li>
+<li>(<strong>e</strong>) If you want to use elevation data to select the neighbor stations, check this box and click on the button <span class="buttonclass">   Settings </span>  , it will display a dialog box which allows to specify the elevation data to be used.</li>
+</ul>
+<br>
+<center>
+<img src="../images/quality_control/qc_outliers_temp/qc_elev-data.gif" style="width:40.0%;height:40.0%" />
+</center>
+<p><br></p>
+<p>If the elevation data come from DEM (<em>Digital Elevation Model</em>), Select <img src='images/common/radiobutton.png' title='Radio button' class='radiochckbutclass' /><span class="radiochcktextclass">   Elevation from DEM   </span>  , you have to provide the DEM file in NetCDF format, select it from the drop-down list if it is already loaded or open it from the browse button <img src="../images/common/browsefiledir.png" title="Browse for a file" id="cdtIconsBr" class="cdtIconsBr" />. If the elevation data come from the station data select <img src='images/common/radiobutton.png' title='Radio button' class='radiochckbutclass' /><span class="radiochcktextclass">   Elevation from station data   </span>  .</p>
+<ul>
+<li>(<strong>f</strong>) Specify the minimum number of neighbor stations to be used to form the predictors for the regression.</li>
+<li>(<strong>g</strong>) Specify the maximum number of neighbor stations to be used to form the predictors for the regression.</li>
+<li>(<strong>h</strong>) Specify the radius of search (in kilometers) to select the neighbor stations.</li>
+<li>(<strong>i</strong>) If using elevation data to select the neighbor stations, specify the maximum altitude difference (in meter) to be used to select the neighbor stations. For example, 800 m means the stations located 400 m above and below the target station will be selected.</li>
+</ul>
+</div>
+<div style="clear: right;">
+
+</div>
+<ol start="6" style="list-style-type: decimal">
+<li>Type the full path to the folder to save the results of the outliers check, or use the browse button <img src="../images/common/browsefiledir.png" title="Browse for a file" id="cdtIconsBr" class="cdtIconsBr" />.</li>
+<li>Click the button <span class="buttonclass">   Check Outliers </span>   to run the quality control.</li>
+</ol>
+<p>This creates a folder named <strong>TMAX.OUTLIERS.CHECK_data</strong> or <strong>TMIN.OUTLIERS.CHECK_data</strong> under the folder you provided (<strong>6</strong>) to save the results of the outliers check. Inside this folder 2 directories and 1 file are created:<br />
+- <strong>CDTDATASET</strong>: directory containing all the required files used by CDT<br />
+- <strong>CDTSTATIONS</strong>: directory containing the checked data, when you did a correction on the suspicious values. The name of the file containing the corrected data is the same as the name of the file from the input (<strong>3</strong>).<br />
+- <strong>OutliersCheck.rds</strong>: an index file, you will need to reload the outputs of QC if you want to view the results or to continue the correction of suspicious values later.</p>
+<p>The tab <span class="ongletclass">   QC Outputs   </span>   allows to view the results of the QC.</p>
+<br>
+<center>
+<img src="../images/quality_control/qc_outliers_temp/qc_tab-output.gif" style="width:50.0%;height:50.0%" />
+</center>
+<p><br></p>
+<ol style="list-style-type: decimal">
+<li>If you already performed an outliers check, you do not need to run it again, you can check this box, the input field below will be activated and you can provide the full path to <strong>OutliersCheck.rds</strong> under the folder <strong>TMAX.OUTLIERS.CHECK_data</strong> or <strong>TMIN.OUTLIERS.CHECK_data</strong> by browsing it through the button <img src="../images/common/browsefiledir.png" title="Browse for a file" id="cdtIconsBr" class="cdtIconsBr" /> on the right.</li>
+<li>The stations with suspicious values are listed here. You can select a station and click on the button <span class="buttonclass">       View &amp; Edit Result     </span>   to view and edit the result of the QC for this station. You can use the buttons <span class="buttonclass">   &lt;&lt; </span>   or <span class="buttonclass">   &gt;&gt; </span>   to switch to the previous or next station. It will open a table on the right panel showing the output of the QC for the selected station.</li>
+</ol>
+<br>
+<center>
+<img src="../images/quality_control/qc_outliers_temp/qc-tt_table-out.gif" style="width:80.0%;height:80.0%" />
+</center>
+<p><br></p>
+<div style="display: inline-block; float: right; width: 95%">
+<ul>
+<li><p>(<strong>a</strong>) The ID of the station.</p></li>
+<li><p>(<strong>b</strong>) The dates on which suspicious values are found.</p></li>
+<li><p>(<strong>c</strong>) The observed suspicious values.</p></li>
+<li><p>(<strong>d</strong>) Statistics from the temporal check if available.</p></li>
+<li><p>(<strong>e</strong>) Statistics from the spatial check if available.</p></li>
+<li><p>(<strong>f</strong>) Description of the suspicious value from temporal check.</p>
+<ul>
+<li><em><strong>lower.values</strong></em>: the value is flagged as too small compared to the time series from this month;</li>
+<li><em><strong>upper.outliers</strong></em>: the value is flagged as too large compared to the time series from this month;</li>
+<li><em><strong>TMIN &gt;= TMAX</strong></em>: the minimum temperature is greater than the maximum temperature;</li>
+<li><em><strong>greater.than.maximum.values</strong></em>: the value is greater than the maximum possible value you provided when you set the parameters of the QC;</li>
+<li><em><strong>less.than.minimum.values</strong></em>: the value is less than the minimum possible value specified.</li>
+</ul></li>
+<li><p>(<strong>g</strong>) Description of the suspicious value from spatial check.</p>
+<ul>
+<li><em><strong>spatial.not.outliers</strong></em>: the value is flagged as outlier from the temporal check but not an outlier when a spatial check is performed;</li>
+<li><em><strong>upper.outliers</strong></em>: the value is flagged very high compared to the values of the neighbor stations;</li>
+<li><em><strong>lower.outliers</strong></em>: the value is flagged very small compared to the values of the neighbor stations.</li>
+</ul></li>
+<li><p>(<strong>h</strong>) The estimated value from the regression.</p></li>
+<li><p>(<strong>i</strong>) You can specify here an action to take when you want to correct the suspicious value. By default, the value in this column is <strong>1</strong>, this means no correction will be done. If you put a flag <strong>1</strong> in this column, the corresponding value in column (<strong>c</strong>) will be kept. If you put a flag <strong>2</strong>, the corresponding value in column (<strong>c</strong>) will be replaced by the estimated value in column (<strong>h</strong>). If you leave this column blank, the corresponding value in (<strong>c</strong>) will be replaced by missing value.</p></li>
+<li><p>(<strong>j</strong>) If you put a value in this column, this value will be taken to replace the value in (<strong>c</strong>). This column takes the priority, whenever you put a flag <strong>1</strong>, <strong>2</strong> or leave blank the column (<strong>i</strong>).</p></li>
+</ul>
+<p>After editing this table, you have to save the changes you made. You can go to the menu <span class="menuselection">File ‣ Save table</span>   or click on the button <img src="../images/common/save_table24.gif" title="Save table" id="cdtIcons" class="cdtIcons" /> in the toolbar to save the table. If the table is saved correctly, you should see an output message <em>“Table saved successfully”</em>.</p>
+</div>
+<div style="clear: right;">
+
+</div>
+<ol start="3" style="list-style-type: decimal">
+<li>Select here the month to display a chart of the time series for this month and the suspicious values detected from the temporal check. If you select the month from the drop-down list, click on the button <span class="buttonclass">   PLOT </span>   to display the chart. You can use the buttons <span class="buttonclass">   &lt;&lt; </span>   and <span class="buttonclass">   &gt;&gt; </span>   to switch to the previous or next month.</li>
+</ol>
+<br>
+<center>
+<img src="../images/quality_control/qc_outliers_temp/qc-tt_graph.gif" style="width:80.0%;height:80.0%" />
+</center>
+<p><br></p>
+<ol start="4" style="list-style-type: decimal">
+<li>Select here the date corresponding to a suspicious value to plot it on a map for this date. If you select the date from the drop-down list, click on the button <span class="buttonclass">   PLOT </span>   to display the map. You can use the buttons <span class="buttonclass">   &lt;&lt; </span>   and <span class="buttonclass">   &gt;&gt; </span>   to switch to the previous or next date.</li>
+</ol>
+<br>
+<center>
+<img src="../images/quality_control/qc_outliers_temp/qc-tt_map.gif" style="width:60.0%;height:60.0%" />
+</center>
+<p><br></p>
+<ol start="5" style="list-style-type: decimal">
+<li>After saving the changes you made on the table, click on the button <span class="buttonclass">       Replace Outliers     </span>   for the changes to take effect.</li>
+</ol>
+<p><br></p>
+<p>To replace all the values flagged as suspicious for all stations by missing values, use the following command to the <code>R</code> console:</p>
+<pre class="r"><code>indexQC &lt;- &quot;/&lt;path_to&gt;/TMAX.OUTLIERS.CHECK_data/OutliersCheck.rds&quot;
+CDT:::QC.TT_replaceAll(indexQC, action = &quot;all&quot;)</code></pre>
+<p>Change &lt;<strong>path_to</strong>&gt; with exact path. The corrected data are located under the folder <strong>TMAX.OUTLIERS.CHECK_data/CDTSTATIONS</strong>.</p>
+<p>You can do the same for the minimum temperature by replacing <strong>TMAX</strong> by <strong>TMIN</strong>.</p>
+<p><br></p>
+<p>The tab <span class="ongletclass">   Zoom   </span>   allows to zoom the displayed map.</p>
+<br>
+<center>
+<img src="../images/quality_control/qc_outliers_temp/qc_tab-zoom.gif" style="width:50.0%;height:50.0%" />
+</center>
+<p><br></p>
+<ol style="list-style-type: decimal">
+<li>Enter here the bounding box of the area to be displayed on the map.</li>
+<li>After setting the bounding box (1), click this button for the change to take effect.</li>
+<li>Reset the zoom.</li>
+<li>Zoom in</li>
+<li>Zoom out</li>
+<li>Draw a rectangle on the map to zoom in an area.</li>
+<li>Move the displayed map.</li>
+</ol>
+<p>Right click on the map to deactivate the active zoom.</p>
+<p><br></p>
+<p>The tab <span class="ongletclass">   Add Layers   </span>   allows to superpose other layers.</p>
+<br>
+<center>
+<img src="../images/quality_control/qc_outliers_temp/qc_tab-layer.gif" style="width:50.0%;height:50.0%" />
+</center>
+<p><br></p>
+<ol style="list-style-type: decimal">
+<li>Check the box and select the shapefile from the drop-down list or open it from <img src="../images/common/browsefiledir.png" title="Browse for a file" id="cdtIconsBr" class="cdtIconsBr" /> to add boundaries to the active map.</li>
+<li>Check the box and select the NetCDF file containing the DEM (Digital Elevation Model) from the drop-down list or open it from <img src="../images/common/browsefiledir.png" title="Browse for a file" id="cdtIconsBr" class="cdtIconsBr" /> to add elevation data as background to the active map.</li>
+<li>Check the box and enter or browse the full path to the NetCDF data (from satellite or radar) to display. Do not forget to provide a sample file and change the filename format by clicking on the button <span class="buttonclass">   Settings </span>   (see <a href="cdt_data_input.html#cdt.ncdf.setting">Setting NetCDF data</a> for more details).</li>
+<li>Select the type of the map. You can choose between a pixel-based image or a contour map.</li>
+</ol>
+
+<footer class="navbar navbar-inverse  navbar-fixed-bottom">
+    <p>
+        <small class="footer">
+            <a href="../index.html">Climate Data Tools, 2019</a> &nbsp;
+            <a class="navbar-footer" href="https://iri.columbia.edu/"><img src="../images/common/iri_logo_full.gif" alt="IRI" /></a>
+        </small>
+    </p>
+</footer>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "../libs/mathjax-local/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Download Data</title>
+
+<script src="../libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="../libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="../libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="../libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="../libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="../libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="../libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="../libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="../libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="../libs/navigation-1.1/tabsets.js"></script>
+<link href="../libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="../libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="../libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="../libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="../css/styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "../index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../index.html">CDT User Guide</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    CDT
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="cdt_file_menu.html">CDT GUI</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="cdt_data_input.html">CDT Data</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Data Preparation
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="format_cdt_data.html">Format CDTs Input Data</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="manipulate_cdt_data.html">Manipulating CDT Station Data</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="assess_availability.html">Assess Data Availability</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="download_data.html">Download Data</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="aggregate_ts_data.html">Aggregate Data</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="regrid_spatial_data.html">Regrid Spatial Data</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="transform_cdt_dataset.html">Transform NetCDF files into CDT Dataset</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="split_netcdf_files.html">Split NetCDF files into CDT NetCDF format</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="combine_netcdf_files.html">Combine multiple CDT NetCDF format files into one</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="data_extraction.html">Data Extraction</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="data_operation.html">Data Operation</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="blanking_girdded_data.html">Blank Grid Outside Polygons</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="data_conversion.html">Data Format Conversion</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Quality Control
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="check_stations_coords.html">Check Stations Coordinates</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="qc_false_zero.html">False-Zeros Check for daily rainfall</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="qc_outliers_precip.html">Outliers Check for rainfall data</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="qc_outliers_temp.html">Outliers Check for temperatures data</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="homogeneity_test.html">Homogeneity Test</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Gridding
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="spatial_interpolation.html">Spatial Interpolation</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Merging Climate Data</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="merging_rainfall.html">Rainfall</a>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <a href="merging_temperature.html">Temperature</a>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <a href="merging_rainfall.html">Relative humidity</a>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <a href="merging_temperature.html">Pressure</a>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <a href="merging_rainfall.html">Radiation</a>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <a href="merging_temperature.html">Wind data</a>
+        </li>
+      </ul>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="scale_merged_data.html">Scale Merged Data</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="cross_validation.html">Merging - Cross-Validation</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Validation
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="validation_cdt_frmt.html">Spatial Points Data (CDT Format)</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="validation_ncdf_frmt.html">Gridded Data (NetCDF Format)</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="validation_multi_data.html">Validate multiple data sets</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Analysis
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="summary_statistics.html">Summary Statistics</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="derived_climate_variables.html">Derived Climate Variables</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="climatologies_anomalies.html">Climatologies and Anomalies</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="spatial_analysis.html">Spatial Analysis</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="daily_rainfall_analysis.html">Daily Rainfall Analysis</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="rainy_season_characteristics.html">Rainy Season Characteristics</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="rainy_season_analysis.html">Rainy Season Analysis</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="climate_extremes_indices.html">Climate Extremes Indices</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="drought_indices.html">Drought Indices</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Visualization
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="plot_station_data.html">Plot CDT Station Data</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="plot_cdt_dataset.html">Plot CDT Gridded Dataset</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="plot_ncdf_one.html">Plot NetCDF Data (One File)</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="plot_ncdf_seq.html">Plot NetCDF Data (Sequential Files)</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="plot_ncdf_vars.html">Plot NetCDF Data (Multiple Variables)</a>
+    </li>
+    <li class="divider"></li>
+    <li>
+      <a href="plot_multiple_dataset.html">Plot multiple data sets</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/rijaf-iri/CDT">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Download Data</h1>
+
+</div>
+
+
+<div id="download-digital-elevation-model" class="section level2">
+<h2>Download Digital Elevation Model <a name="download.dem"></a></h2>
+<p>The menu <span class="menuselection">Data Preparation ‣ Download Data ‣ Download Digital Elevation Model</span>   allows to download the elevation data from a global DEM (Digital Elevation Model) extracted at any wanted area with a spatial resolution of 1 and 2 arc-minute.</p>
+<br>
+<center>
+<img src="../images/data_prepraration/download_data/download_dem.gif" style="width:45.0%;height:40.0%" />
+</center>
+<p><br></p>
+<ol style="list-style-type: decimal">
+<li>Set the bounding box of the area to be downloaded. Type in the fields the minimum and maximum of the longitude and latitude in degree decimal.</li>
+<li>Specify the folder to save the downloaded DEM by browsing it from the button <img src="../images/common/browsefiledir.png" title="Browse for a file" id="cdtIconsBr" class="cdtIconsBr" /> or typing the full path to the folder.</li>
+</ol>
+<p>Two files in NetCDF format will be downloaded into the folder you specified in (<strong>2</strong>):<br />
+- <strong>DEM_1_Arc-Minute.nc</strong>: <a href="http://iridl.ldeo.columbia.edu/SOURCES/.NOAA/.NGDC/.ETOPO1/">ETOPO1</a> Grid Registered 1 Arc-Minute Global Relief Model.<br />
+- <strong>DEM_2_Arc-Minute.nc</strong>: <a href="http://iridl.ldeo.columbia.edu/SOURCES/.NOAA/.NGDC/.ETOPO2v2/">ETOPO2v2c</a> Global Gridded 2-minute elevation and bathymetric data.</p>
+</div>
+<div id="download-country-administrative-boundaries" class="section level2">
+<h2>Download Country Administrative Boundaries <a name="download.shp"></a></h2>
+<p>The menu <span class="menuselection">Data Preparation ‣ Download Country boundary</span>   allows to download the country outlines and administrative subdivisions for countries in Africa from <a href="https://gadm.org/index.html">GADM data</a>.</p>
+<br>
+<center>
+<img src="../images/data_prepraration/download_data/download_shp.gif" style="width:65.0%;height:60.0%" />
+</center>
+<p><br></p>
+<ol style="list-style-type: decimal">
+<li>Select the region where the country is located</li>
+<li>Select the country from the drop-down list.</li>
+<li>Select the administrative subdivisions to download. <strong>0</strong> is the country boundaries, <strong>1</strong> is the first subdivision (example: Region), <strong>2</strong> the second subdivision (example: District), …</li>
+<li>Specify the folder to save the downloaded ESRI shapefile by browsing it from the button <img src="../images/common/browsefiledir.png" title="Browse for a file" id="cdtIconsBr" class="cdtIconsBr" /> or typing the full path to the folder.</li>
+</ol>
+</div>
+<div id="download-satellite-rainfall-estimates-data" class="section level2">
+<h2>Download Satellite Rainfall Estimates data <a name="download.rfe"></a></h2>
+<p>The menu <span class="menuselection">Data Preparation ‣ Download Data ‣ Download Satellite Rainfall Estimates data</span>   allows to download satellite rainfall products from 30 minutes to monthly temporal resolution.</p>
+<br>
+<center>
+<img src="../images/data_prepraration/download_data/download_rfe.gif" style="width:70.0%;height:75.0%" />
+</center>
+<p><br></p>
+<ol style="list-style-type: decimal">
+<li>Select the temporal resolution of the satellite rainfall estimate product to download.</li>
+<li>In case of minutes or hourly data, select here the time step.</li>
+<li>Select the satellite rainfall estimate product to download.</li>
+<li>Set the date and time range of the data to download. See <a href="cdt_data_input.html#cdt.date.range">Setting date range</a> for more details.</li>
+<li>If the satellite rainfall estimate product requires a login to download the data, enter here the user name and the password you use to log in to your account. The URL of the website for login is displayed next to the label <strong>Login to</strong>. If you do not have an account yet, you can sign up to this URL.</li>
+<li>Click this button to display the information about the data. It will open your default web browser and display the link to the data or relevant information about the data.</li>
+<li>In case of this checkbox is activated, check it if you want to download the data from the Data Library of IRI. The IRI Data Library allows you to subset the data before downloading it into your computer, and it makes the download faster.</li>
+<li>Set the bounding box of the area to be downloaded. Type in the fields the minimum and maximum of the longitude and latitude in degree decimal.</li>
+<li>Specify the folder to save the downloaded rainfall data by browsing it from the button <img src="../images/common/browsefiledir.png" title="Browse for a file" id="cdtIconsBr" class="cdtIconsBr" /> or typing the full path to the folder.</li>
+</ol>
+<p>A folder containing the downloaded data will be created under the directory you provided in (<strong>9</strong>). This folder is created from the name of the satellite rainfall estimate product and the time step of the data.</p>
+</div>
+<div id="download-reanalysis-data" class="section level2">
+<h2>Download Reanalysis data <a name="download.reanalysis"></a></h2>
+<p>The menu <span class="menuselection">Data Preparation ‣ Download Data ‣ Download Reanalysis data</span>   allows to download data for several variables from 3 reanalysis products.</p>
+<br>
+<center>
+<img src="../images/data_prepraration/download_data/download_reanalysis.png" style="width:70.0%;height:75.0%" />
+</center>
+<p><br></p>
+<ol style="list-style-type: decimal">
+<li><p>Select the reanalysis product. CDT allows you to get the data from 3 reanalysis products: <strong>JRA-55</strong> (3 hourly temporal resolution), <strong>MERRA-2</strong> (daily temporal resolution) and <strong>ERA5</strong> .</p></li>
+<li><p>Select the data portal you want to use to download the data. You can see the temporal resolution of the data at the end of each portal.</p>
+<blockquote>
+<p><em>Note for <strong>JRA-55</strong></em><br />
+The portal <strong>rda.ucar.edu - ds628.0 - 3Hourly</strong> starts on 1958-01-01 00:00 and on ends on 2021-05-01 00:00, use this portal if you want to download a long series of data.<br />
+The portal <strong>rda.ucar.edu - ds628.8-NRT - 3Hourly</strong> is starting on 2020-07-01 00:00 up to now, and updated every day with approximately 3 days latency, use this portal if you want to download the latest available data.</p>
+</blockquote></li>
+<li><p>Select the variable you want to download. The available variables depend on the data portal you choose. If you select a variable ended with <em><strong>data</strong></em>, you will have multiple variables included in the netCDF file. For example, if you select <em><strong>Cloud data</strong></em>, the netCDF file will include the variables: <em>total cloud cover, high cloud cover, medium cloud cover, low cloud cover and cloud base height</em>. Note that the available variables in the netCDF file depend on the reanalysis product.</p></li>
+<li><p>Set the date and time range of the data to download. See <a href="cdt_data_input.html#cdt.date.range">Setting date range</a> for more details.</p></li>
+<li><p>If the data portal requires a login to download the data, enter here the user name and the password you use to log in to your account. The URL of the data portal is displayed next to the label <strong>Login to</strong>. If you do not have an account yet, you can sign up to this URL.</p></li>
+<li><p>Click this button to display the information about the data. It will open your default web browser and display the link to the data portal.</p></li>
+<li><p>Set the bounding box of the area to be downloaded. Type in the fields the minimum and maximum of the longitude and latitude in degree decimal.</p></li>
+<li><p>Specify the folder to save the downloaded data by browsing it from the button <img src="../images/common/browsefiledir.png" title="Browse for a file" id="cdtIconsBr" class="cdtIconsBr" /> or typing the full path to the folder.</p></li>
+</ol>
+<p>A folder containing the downloaded data will be created under the directory you provided in (<strong>8</strong>). This folder is created from the name of the reanalysis product and the temporal resolution of the data.</p>
+<p>The folder structure for the output is as follow</p>
+<ul>
+<li><p><strong>JRA-55</strong></p>
+<ul>
+<li><p><strong><em>rda.ucar.edu - ds628.0 - 3Hourly</em></strong>: a folder named <strong>JRA55_3Hr_data</strong> is created under the folder you provided in (<strong>8</strong>), under it a folder in the form <strong>JRA55_</strong>&lt;<strong><em>var_name</em></strong>&gt;, where &lt;<strong><em>var_name</em></strong>&gt; is the abbreviation of the variable name selected in (<strong>3</strong>).</p></li>
+<li><p><strong><em>rda.ucar.edu - ds628.8-NRT - 3Hourly</em></strong>: a folder named <strong>JRA55_NRT_3Hr_data</strong> is created under the folder you provided in (<strong>8</strong>), under it two folders in the form <strong>Extracted_</strong>&lt;<strong><em>var_name</em></strong>&gt; and <strong>GRIB_</strong>&lt;<strong><em>category</em></strong>&gt;, where &lt;<strong><em>var_name</em></strong>&gt; is the abbreviation of the variable name selected in (<strong>3</strong>) and &lt;<strong><em>category</em></strong>&gt; is the category of output parameters of JRA55. The folder <strong>GRIB_</strong>&lt;<strong><em>category</em></strong>&gt; contains a GRIB1 file format which cover the whole globe. CDT uses the program <a href="https://www.cpc.ncep.noaa.gov/products/wesley/wgrib.html">WGRIB</a> to extract the data over the region you specified in (<strong>7</strong>). Before you download the data using this portal, you have to download and install <code>WGRIB</code> first, see the <a href="download_data.html#install.wgrib">installation instruction</a> in the section bellow.<br />
+The GRIB files downloaded contains many fields, see <a href="https://rda.ucar.edu/datasets/ds628.0/docs/JRA-55.handbook_TL319_en.pdf">JRA-55 Product Users Handbook</a> for more details. The variables included in each category are as follow</p>
+<ul>
+<li><strong><em>minmax_surf</em></strong>: minimum and maximum temperature at 2 m above ground.</li>
+<li><strong><em>fcst_surf</em></strong>: air temperature at 2 m above ground, wind data at 10 m above ground, humidity data at 2 m above ground, pressure at surface, pressure reduced to mean sea level, and cloud data.</li>
+<li><strong><em>fcst_phy2m</em></strong>: radiation data, precipitation data, evaporation at surface, and heat flux data.</li>
+<li><strong><em>fcst_phyland</em></strong>: evapotranspiration at ground surface, runoff data and ground heat flux.</li>
+<li><strong><em>fcst_land</em></strong>: soil moisture data, soil temperature data and ground temperature at surface.</li>
+</ul>
+<p>If you already have the GRIB files containing the variable you want then you do not need to download it again, you just need to extract it using the menu <a href="download_data.html#extract.wgrib">Extract GRIB data from JRA-55 NRT Reanalysis</a>.</p></li>
+</ul></li>
+<li><p><strong>MERRA-2</strong></p></li>
+<li><p><strong>ERA5</strong></p></li>
+</ul>
+</div>
+<div id="install-wgrib" class="section level2">
+<h2>Install WGRIB <a name="install.wgrib"></a></h2>
+<p>To install <code>WGRIB</code>, open R and use the commands below</p>
+<pre class="r"><code>library(CDT)
+install_wgrib()</code></pre>
+<p>If the installation went well, you should see the following message</p>
+<pre class="r"><code>wgrib compiled successfully!</code></pre>
+<p>Go under your <strong>Documents</strong> folder then <strong>CDT_Local_Config</strong> you should see a folder called <strong>wgrib</strong> inside it there should be 2 files <strong><em>wgrib.c</em></strong> and <strong><em>wgrib</em></strong> (or <strong><em>wgrib.exe</em></strong> for Windows).</p>
+</div>
+<div id="extract-grib-data-from-jra-55-nrt-reanalysis" class="section level2">
+<h2>Extract GRIB data from JRA-55 NRT Reanalysis <a name="extract.wgrib"></a></h2>
+<p>The menu <span class="menuselection">Data Preparation ‣ Download Data ‣ Extract GRIB data from JRA-55 NRT Reanalysis</span>   allows to extract the data from JRA-55 near real-time GRIB files downloaded with <a href="download_data.html#download.reanalysis">Download Reanalysis data</a>.</p>
+<p>If you have downloaded JRA-55 data using the portal <strong><em>rda.ucar.edu - ds628.8-NRT - 3Hourly</em></strong>, you noticed that you have a GRIB1 file format. The GRIB file contains many variables depending of the category of the field parameters.</p>
+<br>
+<center>
+<img src="../images/data_prepraration/download_data/extract_grib.png" style="width:55.0%;height:60.0%" />
+</center>
+<p><br></p>
+<ol style="list-style-type: decimal">
+<li>Enter here the full path to the folder containing the GRIB files or browse from the button <img src="../images/common/browsefiledir.png" title="Browse for a file" id="cdtIconsBr" class="cdtIconsBr" />. For example, if you want to extract the wind data at 10 m above ground, you have to provide the full path to the folder <strong><em>GRIB_fcst_surf</em></strong>. See the description of the output folder for JRA-55 in <a href="download_data.html#download.reanalysis">Download Reanalysis data</a> for more specification.</li>
+<li>Select the variable you want to extract.</li>
+<li>Set the date and time range of the data to extract. See <a href="cdt_data_input.html#cdt.date.range">Setting date range</a> for more details.</li>
+<li>Set the bounding box of the area to be extracted. Type in the fields the minimum and maximum of the longitude and latitude in degree decimal.</li>
+<li>Specify the folder to save the extracted data by browsing it from the button <img src="../images/common/browsefiledir.png" title="Browse for a file" id="cdtIconsBr" class="cdtIconsBr" /> or typing the full path to the folder.</li>
+</ol>
+<p>When you finish to set up all the required fields click OK then click on the button <img src="../images/common/execute24.gif" title="Execute the append task" id="cdtIcons" class="cdtIcons" /> to execute.</p>
+<p>A folder containing the extracted data in the form <strong>Extracted_</strong>&lt;<strong><em>var_name</em></strong>&gt;, where &lt;<strong><em>var_name</em></strong>&gt; is the abbreviation of the variable name selected in (<strong>2</strong>), will be created under the folder you specified in (<strong>5</strong>).</p>
+</div>
+<div id="download-reanalysis-elevation-data" class="section level2">
+<h2>Download Reanalysis Elevation data <a name="download.renalysis.dem"></a></h2>
+<p>To download the elevation data from a reanalysis product, you can use the menu <span class="menuselection">Data Preparation ‣ Download Data ‣ Download Reanalysis Elevation data</span>  . This elevation data will used to downscale the reanalysis data like pressure.</p>
+<br>
+<center>
+<img src="../images/data_prepraration/download_data/download_reanalysis_elv.png" style="width:50.0%;height:37.0%" />
+</center>
+<p><br></p>
+<ol style="list-style-type: decimal">
+<li>Select the reanalysis product you want to download the elevation data. Valid options: JRA-55, MERRA-2, ERA5 and ERA5-Land.</li>
+<li>Set the bounding box of the area to be downloaded. Type in the fields the minimum and maximum of the longitude and latitude in degree decimal.</li>
+<li>Specify the folder to save the downloaded elevation data by browsing it from the button <img src="../images/common/browsefiledir.png" title="Browse for a file" id="cdtIconsBr" class="cdtIconsBr" /> or typing the full path to the folder.</li>
+</ol>
+<p>The downloaded data is saved in a file named in the form &lt;<strong><em>reanalysis product</em></strong>&gt;**_DEM.nc** under the folder you specified in (<strong>3</strong>), where &lt;<strong><em>reanalysis product</em></strong>&gt; is the reanalysis product you selected in (<strong>1</strong>).</p>
+<p><br />
+</p>
+</div>
+
+<footer class="navbar navbar-inverse  navbar-fixed-bottom">
+    <p>
+        <small class="footer">
+            <a href="../index.html">Climate Data Tools, 2019</a> &nbsp;
+            <a class="navbar-footer" href="https://iri.columbia.edu/"><img src="../images/common/iri_logo_full.gif" alt="IRI" /></a>
+        </small>
+    </p>
+</footer>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "../libs/mathjax-local/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
