@@ -11,7 +11,7 @@
 
 
 
-<title>Merging - Cross-Validation</title>
+<title>Selecting period</title>
 
 <script src="../libs/header-attrs-2.13/header-attrs.js"></script>
 <script src="../libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -585,19 +585,47 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Merging - Cross-Validation</h1>
+<h1 class="title toc-ignore">Selecting period</h1>
 
 </div>
 
 
-<!--
-image dir /images/gridding/cross_validation
--->
-<div id="precipitation-data" class="section level2">
-<h2>Precipitation Data <a name="rr.cv.mrg"></a></h2>
+<div id="climatology-base-period" class="section level2">
+<h2>Climatology base period <a name="base.period"></a></h2>
+<p>A base period is a reference period over which climatology and climate statistics are computed. The choice of base period is often depending on the availability of the time series. The World Meteorological Organisation (WMO) describes <a href="https://climate.copernicus.eu/new-decade-brings-reference-period-change-climate-data">standard reference periods</a> for use by the international community in order to maintain consistency in the computation of climate statistics across the world, it is a 30-year period which changes every 10 years. This allows climate statistics from different countries to be compared and analyzed. The current standard reference period is 1991 to 2020.</p>
+<p>The dialog box below allows to specify the base period and minimum number of year to use.</p>
+<br>
+<center>
+<img src="../images/options/set_base_period.png" style="width:50.0%;height:25.0%" />
+</center>
+<p><br></p>
+<ol style="list-style-type: decimal">
+<li><p>Check the checkbox <img src='../images/common/checkbox.png' title='Checkbox' class='radiochckbutclass' /><span class="radiochcktextclass">   Use all years from the input data   </span>   to compute the statistics over the period available in the input data.</p></li>
+<li><p>If you want to specify a given period, uncheck <img src='../images/common/checkbox.png' title='Checkbox' class='radiochckbutclass' /><span class="radiochcktextclass">   Use all years from the input data   </span>  . This activates the input fields allowing you to provide the start and end year to be used to compute the statistics.</p></li>
+<li><p>Specify here the minimum number of year to be used to compute the statistic. If the time series cover a period less than the provided minimum number of year, the statistic will not be computed and set to missing values.</p></li>
+</ol>
+<p><br />
+</p>
 </div>
-<div id="temperature-data" class="section level2">
-<h2>Temperature Data <a name="tt.cv.mrg"></a></h2>
+<div id="selecting-years" class="section level2">
+<h2>Selecting years <a name="select.years"></a></h2>
+<p>When performing a spatio-temporal analysis, you will need to specify the period or years over which the statistics will be computed. The period can be a continuous years (climatology base period) or a set of years. When a list of years is provided, the analysis is known as a <em>composite analysis</em>. A composites analysis can be useful for exploring the large scale impacts of teleconnections from modes of atmospheric variability such as El Nino. It is a sampling technique based on the conditional probability of a certain event occurring.</p>
+<p>on which a meteorological or climatological phenomenon have been observed</p>
+<br>
+<center>
+<img src="../images/options/selecting_years.png" style="width:50.0%;height:22.0%" />
+</center>
+<p><br></p>
+<ol style="list-style-type: decimal">
+<li><p>Check the checkbox <img src='../images/common/checkbox.png' title='Checkbox' class='radiochckbutclass' /><span class="radiochcktextclass">   Use all years from the input data   </span>   to perform the analysis over the period available in the input data.</p></li>
+<li><p>If you want to specify a given period, uncheck <img src='../images/common/checkbox.png' title='Checkbox' class='radiochckbutclass' /><span class="radiochcktextclass">   Use all years from the input data   </span>  . This activates the input fields allowing you to provide the start and end year to be used to compute the statistics.</p></li>
+<li><p>To perform a composite analysis, uncheck <img src='../images/common/checkbox.png' title='Checkbox' class='radiochckbutclass' /><span class="radiochcktextclass">   Use all years from the input data   </span>   and check <img src='../images/common/checkbox.png' title='Checkbox' class='radiochckbutclass' /><span class="radiochcktextclass">   Customized Years   </span>  , then click on the button <span class="buttonclass">   Custom </span>   to open the dialog box allowing you to provide the list of years to be used to perform the analysis. Type the list of years you want in the text widget, the years must be separated by comma. The dialog box below shows an example of all El Nino years for the season December-January-February from the 80s up to present.</p></li>
+</ol>
+<br>
+<center>
+<img src="../images/options/select_year_DJF_nino.png" style="width:50.0%;height:30.0%" />
+</center>
+<p><br></p>
 </div>
 
 <footer class="navbar navbar-inverse  navbar-fixed-bottom">

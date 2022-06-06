@@ -11,7 +11,7 @@
 
 
 
-<title>Merging - Cross-Validation</title>
+<title> </title>
 
 <script src="../libs/header-attrs-2.13/header-attrs.js"></script>
 <script src="../libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -585,19 +585,123 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Merging - Cross-Validation</h1>
+<h1 class="title toc-ignore"> </h1>
 
 </div>
 
 
-<!--
-image dir /images/gridding/cross_validation
--->
-<div id="precipitation-data" class="section level2">
-<h2>Precipitation Data <a name="rr.cv.mrg"></a></h2>
+<div id="inverse-distance-weighted" class="section level2">
+<h2>Inverse Distance Weighted</h2>
+<br>
+<center>
+<img src="../images/gridding/spatial_interpolation/interp_mthd_idw.png" style="width:50.0%;height:24.0%" />
+</center>
+<p><br></p>
+<ul>
+<li><p>(<strong>a</strong>) Select <a href="interpolation_methods.html#interp.idw"><em>Inverse Distance Weighted</em></a> as interpolation method from drop down list.</p></li>
+<li><p>(<strong>b</strong>) Enter the minimum number of neighbor stations <em>nmin</em> to interpolate a grid node.</p></li>
+<li><p>(<strong>c</strong>) Enter the minimum number of neighbor stations <em>nmax</em> to interpolate a grid node.</p></li>
+<li><p>(<strong>d</strong>) Enter the maximum distance <em>maxdist</em> (units in decimal degree) to define the search radius used to select the stations to interpolate a grid node.</p></li>
+<li><p>(<strong>e</strong>) Check this box if you want to apply a spatial smoothing to the interpolated data. To define the block type and size, use the function <code>interpolation.options()</code> on the R console, and change the arguments <code>blockType</code> and <code>blockSize</code>. For more details on how the block is created, see <a href="interpolation_methods.html#Spatial.smoothing">the method CDT used for spatial smoothing</a>.</p></li>
+</ul>
+<p><br />
+</p>
 </div>
-<div id="temperature-data" class="section level2">
-<h2>Temperature Data <a name="tt.cv.mrg"></a></h2>
+<div id="modified-shepard-interpolation" class="section level2">
+<h2>Modified Shepard interpolation</h2>
+<br>
+<center>
+<img src="../images/gridding/spatial_interpolation/interp_mthd_shepard.png" style="width:50.0%;height:21.0%" />
+</center>
+<p><br></p>
+<ul>
+<li><p>(<strong>a</strong>) Select <a href="interpolation_methods.html#interp.shpd"><em>Modified Shepard interpolation</em></a> as interpolation method from drop down list.</p></li>
+<li><p>(<strong>b</strong>) Enter the minimum number of neighbor stations <em>nmin</em> to interpolate a grid node.</p></li>
+<li><p>(<strong>c</strong>) Enter the minimum number of neighbor stations <em>nmax</em> to interpolate a grid node.</p></li>
+</ul>
+<p><br />
+</p>
+</div>
+<div id="spheremap-interpolation-method" class="section level2">
+<h2>Spheremap interpolation method</h2>
+<br>
+<center>
+<img src="../images/gridding/spatial_interpolation/interp_mthd_shperemap.png" style="width:50.0%;height:21.0%" />
+</center>
+<p><br></p>
+<ul>
+<li><p>(<strong>a</strong>) Select <a href="interpolation_methods.html#interp.sphrmap"><em>Spheremap interpolation method</em></a> as interpolation method from drop down list.</p></li>
+<li><p>(<strong>b</strong>) Enter the minimum number of neighbor stations <em>nmin</em> to interpolate a grid node.</p></li>
+<li><p>(<strong>c</strong>) Enter the minimum number of neighbor stations <em>nmax</em> to interpolate a grid node.</p></li>
+</ul>
+<p><br />
+</p>
+</div>
+<div id="ordinary-kriging" class="section level2">
+<h2>Ordinary Kriging</h2>
+<br>
+<center>
+<img src="../images/gridding/spatial_interpolation/interp_mthd_ok.png" style="width:50.0%;height:31.0%" />
+</center>
+<p><br></p>
+<ul>
+<li><p>(<strong>a</strong>) Select <a href="interpolation_methods.html#interp.kriging"><em>Ordinary Kriging</em></a> as interpolation method from drop down list.</p></li>
+<li><p>(<strong>b</strong>) Enter the minimum number of neighbor stations <em>nmin</em> to interpolate a grid node.</p></li>
+<li><p>(<strong>c</strong>) Enter the minimum number of neighbor stations <em>nmax</em> to interpolate a grid node.</p></li>
+<li><p>(<strong>d</strong>) Enter the maximum distance <em>maxdist</em> (units in decimal degree) to define the search radius used to select the stations to interpolate a grid node.</p></li>
+<li><p>(<strong>e</strong>) Check this box if you want to apply a spatial smoothing to the interpolated data. To define the block type and size, use the function <code>interpolation.options()</code> on the R console, and change the arguments <code>blockType</code> and <code>blockSize</code>. For more details on how the block is created, see <a href="interpolation_methods.html#Spatial.smoothing">the method CDT used for spatial smoothing</a>.</p></li>
+<li><p>(<strong>f</strong>) Enter the list of candidate variogram models to be selected, the list must be separated by a comma. CDT use the function <code>autofitVariogram</code> from the package <code>automap</code> to fit the variogram. The best fitting will be used for the interpolation. A list of all permitted variogram models is available by typing <code>vgm()</code> on the R console.</p></li>
+<li><p>(<strong>g</strong>) Enter the minimum number of stations with non-missing data to be used to compute the sample variogram.</p></li>
+</ul>
+<p><br />
+</p>
+</div>
+<div id="universal-kriging" class="section level2">
+<h2>Universal Kriging</h2>
+<br>
+<center>
+<img src="../images/gridding/spatial_interpolation/interp_mthd_uk.png" style="width:50.0%;height:42.0%" />
+</center>
+<p><br></p>
+<ul>
+<li><p>(<strong>a</strong>) Select <a href="interpolation_methods.html#interp.kriging"><em>Universal Kriging</em></a> as interpolation method from drop down list.</p></li>
+<li><p>(<strong>b</strong>) Enter the minimum number of neighbor stations <em>nmin</em> to interpolate a grid node.</p></li>
+<li><p>(<strong>c</strong>) Enter the minimum number of neighbor stations <em>nmax</em> to interpolate a grid node.</p></li>
+<li><p>(<strong>d</strong>) Check this box if you want to apply a spatial smoothing to the interpolated data. To define the block type and size, use the function <code>interpolation.options()</code> on the R console, and change the arguments <code>blockType</code> and <code>blockSize</code>. For more details on how the block is created, see <a href="interpolation_methods.html#Spatial.smoothing">the method CDT used for spatial smoothing</a>.</p></li>
+<li><p>(<strong>e</strong>) Enter the list of candidate variogram models to be selected, the list must be separated by a comma. CDT use the function <code>autofitVariogram</code> from the package <code>automap</code> to fit the variogram. The best fitting will be used for the interpolation. A list of all permitted variogram models is available by typing <code>vgm()</code> on the R console.</p></li>
+<li><p>(<strong>f</strong>) Enter the minimum number of stations with non-missing data to be used to compute the sample variogram.</p></li>
+<li><p>(<strong>g</strong>) Check the auxiliaries variables to be used. You can choose between: elevation data; slope and aspect computed from the elevation data, see the function <code>terrain</code> from the <code>raster</code> package fro more details; longitude and latitude.</p></li>
+<li><p>(<strong>h</strong>) In case you include elevation, slope and/or aspect, you have to provide the elevation data in NetCDF format, select it from the drop-down list if it is already loaded or open it from the browse button <span class="buttonclass">   … </span>  .</p></li>
+</ul>
+<p><br />
+</p>
+</div>
+<div id="nearest-neighbor" class="section level2">
+<h2>Nearest Neighbor</h2>
+<br>
+<center>
+<img src="../images/gridding/spatial_interpolation/interp_mthd_nn.png" style="width:50.0%;height:21.0%" />
+</center>
+<p><br></p>
+<ul>
+<li><p>(<strong>a</strong>) Select <a href="interpolation_methods.html#interp.nn"><em>Nearest Neighbor</em></a> as interpolation method from drop down list.</p></li>
+<li><p>(<strong>b</strong>) Enter the maximum distance (units in decimal degree) to define the search radius used to select the station to interpolate a grid node.</p></li>
+</ul>
+<p><br />
+</p>
+</div>
+<div id="nearest-neighbor-with-elevation---3d" class="section level2">
+<h2>Nearest Neighbor with elevation - 3D</h2>
+<br>
+<center>
+<img src="../images/gridding/spatial_interpolation/interp_mthd_nn3d.png" style="width:50.0%;height:29.0%" />
+</center>
+<p><br></p>
+<ul>
+<li><p>(<strong>a</strong>) Select <a href="interpolation_methods.html#interp.nn"><em>Nearest Neighbor with elevation - 3D</em></a> as interpolation method from drop down list.</p></li>
+<li><p>(<strong>b</strong>) Enter the maximum distance (units in decimal degree) to define the search radius used to select the station to interpolate a grid node.</p></li>
+<li><p>(<strong>c</strong>) Select the elevation data, in NetCDF format, from the drop-down list if it is already loaded or open it from the browse button <span class="buttonclass">   … </span>  .</p></li>
+</ul>
 </div>
 
 <footer class="navbar navbar-inverse  navbar-fixed-bottom">

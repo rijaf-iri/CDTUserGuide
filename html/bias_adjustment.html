@@ -11,7 +11,7 @@
 
 
 
-<title>Merging - Cross-Validation</title>
+<title>Bias Adjustment</title>
 
 <script src="../libs/header-attrs-2.13/header-attrs.js"></script>
 <script src="../libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -585,19 +585,65 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Merging - Cross-Validation</h1>
+<h1 class="title toc-ignore">Bias Adjustment</h1>
 
 </div>
 
 
-<!--
-image dir /images/gridding/cross_validation
--->
-<div id="precipitation-data" class="section level2">
-<h2>Precipitation Data <a name="rr.cv.mrg"></a></h2>
+<div id="computing-bias-coefficients" class="section level2">
+<h2>Computing Bias coefficients</h2>
+<p>All estimated gridded data (satellite rainfall estimates, models output, …) are subject to different types of errors, including errors from sensors, algorithms and random errors.</p>
+<p>There are two main sources errors for the estimated gridded data: random error and systematic bias. These discrepancies between the estimated gridded data and the station observations need to be corrected before further analysis. The systematic bias can be reduced or eliminated by applying statistical bias correction methods.</p>
+<p>CDT uses an approach based on historical data from the estimated gridded data and station observations to correct the systematic bias. A climatological bais coefficients are first computed for each month or at the temporal resolution of the data.</p>
+<blockquote>
+<p>The color light blue of the menu means that you only need to compute the bias coefficients once. Indeed, you will need a long series and quality controlled station data to compute the climatological bias coefficients. Once the coefficients are calculated you can use it to correct the systematic bias from the same source of the estimated gridded data.</p>
+</blockquote>
+<div id="climate-data" class="section level3">
+<h3>Climate data <a name="clim.calc.bias"></a></h3>
+<p>The menu <span class="menuselection">Gridding ‣ Merging Climate Data ‣ &lt;<em>name of the climate variable</em> &gt; ‣ Compute Bias Coefficients</span>   allows to compute the climatological bias coefficients for rainfall, temperature, relative humidity, radiation and pressure data.</p>
+<br>
+<center>
+<img src="../images/gridding/bias_coefficients/clim_bias_coeff.png" style="width:45.0%;height:50.0%" />
+</center>
+<p><br></p>
+<ol style="list-style-type: decimal">
+<li><p>Select the temporal resolution of the data. Available temporal resolution are: <em>daily</em>, <em>pentad</em>, <em>dekadal</em> and <em>monthly data</em>.</p></li>
+<li><p>Click on the button <span class="buttonclass">     Set Bias Base Period   </span>   to specify the period and minimum number of year to be use to compute the bias coefficients. All the parameters can be set in the <a href="selecting_period.html#base.period">base period setting</a> dialog.</p></li>
+<li><p>Select the station data in the CDT format to use from the drop down list if it is already loaded, or open it through <img src="../images/common/browsefiledir.png" title="Browse for a file" id="cdtIconsBr" class="cdtIconsBr" />.</p></li>
+<li><p>Type the full path to the folder containing the netCDF files or browse it from the button <img src="../images/common/browsefiledir.png" title="Browse for a file" id="cdtIconsBr" class="cdtIconsBr" /> on the right.</p></li>
+<li><p>Provide a netCDF sample file and change the filename format of the netCDF file through the <a href="cdt_data_input.html#cdt.ncdf.setting">netCDF settings</a> dialog by clicking on the button <span class="buttonclass">   Settings </span>  .</p></li>
+<li><p>Type the full path to the folder to save the computed bias coefficients, or use the browse button <img src="../images/common/browsefiledir.png" title="Browse for a file" id="cdtIconsBr" class="cdtIconsBr" />.</p></li>
+<li><p>Select the method to use to compute the bias coefficients. CDT has 4 methods to compute the bias coefficients: <em>Multiplicative Bias Time Step Variable</em>, <em>Multiplicative Bias for Each Month</em>, <em>Quantile Mapping with Fitted Distribution</em>, and <em>Quantile Mapping with Empirical Distribution</em>. See <a href="bias_adjustment_methods.html">CDT bias adjustment methods</a> section for more information.</p></li>
+<li><p>Enter the minimum length of non missing values to be used to calculate the bias coefficients or to fit the distribution. Although you already specify the minimum number of year needed to compute the bias coefficients, it is possible that some dekads and months contain missing values, you need to specify here the minimum length of data to be used to perform the computation.</p></li>
+<li><p>Click on the button <span class="buttonclass">     Bias Interpolation Parameters   </span>   to open the <a href="interpolation_dialog.html">interpolation dialog</a> to select the interpolation method to be used and set the all parameters for the interpolation.</p></li>
+<li><p>Click on the button <span class="buttonclass">     Create Grid for Interpolation   </span>   to create the grid to be used to interpolate the data. It will display the <a href="interpolation_grid.html">grid creation</a> dialog box.</p></li>
+</ol>
+<p>Click on the button <img src="../images/common/execute24.gif" title="Execute the append task" id="cdtIcons" class="cdtIcons" /> to run the bias coefficients calculation.</p>
+<p>A folder named <strong>BIAS_Data_</strong>&lt;<strong><em>file name of station data</em></strong>&gt; will be created under the folder you provided (<strong>6</strong>) to save the outputs. This folder contains a file named <strong>BIAS_PARAMS.rds</strong> containing the parameters used to computed the bias coefficients, and one or more files depending on the method used.</p>
+<ul>
+<li><em>Multiplicative Bias Time Step Variable</em>: a netCDF files named <strong>STN_GRD_Bias_Coeff_</strong>&lt;<strong><em>n</em></strong>&gt;<strong>.nc</strong>, where <span class="math inline">\(n\)</span> is the <span class="math inline">\(n^{th}\)</span> bias coefficients. The total number of bias coefficients <span class="math inline">\(N\)</span> is</li>
+</ul>
+<p><span class="math display">\[
+N = \begin{cases}
+365,  &amp; \text{ for daily data} \\
+72,  &amp; \text{ for pentadal data} \\
+36,  &amp; \text{ for dekadal data} \\
+12,  &amp; \text{ for monthly data}
+\end{cases}
+\]</span></p>
+<ul>
+<li><em>Multiplicative Bias for Each Month</em>: a netCDF files named <strong>STN_GRD_Bias_Coeff_</strong>&lt;<strong><em>n</em></strong>&gt;<strong>.nc</strong>, where <span class="math inline">\(n\)</span> is the bias coefficient of the <span class="math inline">\(n^{th}\)</span> month.</li>
+<li><em>Quantile Mapping with Fitted Distribution</em>: a netCDF files named <strong>STN_Bias_Pars_</strong>&lt;<strong><em>distname</em></strong>&gt;_&lt;<strong><em>n</em></strong>&gt;<strong>.nc</strong> containing the computed and interpolated distribution parameters for stations data and <strong>GRD_Bias_Pars_</strong>&lt;<strong><em>distname</em></strong>&gt;_&lt;<strong><em>n</em></strong>&gt;<strong>.nc</strong> for the gridded data; where <em>distname</em> is the fitted distribution name <strong><em>BernGamma</em></strong> for rainfall and <strong><em>Gaussian</em></strong> for the other variables; <span class="math inline">\(n\)</span> is the bias coefficient of the <span class="math inline">\(n^{th}\)</span> month.</li>
+<li><em>Quantile Mapping with Empirical Distribution</em>: a file named <strong>GRID_DATA.rds</strong> containing the quantile functions of the empirical distribution.</li>
+</ul>
 </div>
-<div id="temperature-data" class="section level2">
-<h2>Temperature Data <a name="tt.cv.mrg"></a></h2>
+<div id="wind-data" class="section level3">
+<h3>Wind data <a name="rr.apply.bias"></a></h3>
+<p>The menu <span class="menuselection">Gridding ‣ Merging Climate Data ‣ &lt;<em>name of the climate variable</em> &gt; ‣ Compute Bias Coefficients</span>   allows to compute the climatological bias coefficients.</p>
+</div>
+</div>
+<div id="apply-bias-correction" class="section level2">
+<h2>Apply bias correction</h2>
 </div>
 
 <footer class="navbar navbar-inverse  navbar-fixed-bottom">

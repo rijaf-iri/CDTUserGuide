@@ -449,28 +449,17 @@ div.tocify {
       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Merging Climate Data</a>
       <ul class="dropdown-menu" role="menu">
         <li>
-          <a href="merging_rainfall.html">Rainfall</a>
+          <a href="downscaling_data.html">Downscaling Data</a>
         </li>
         <li class="divider"></li>
         <li>
-          <a href="merging_temperature.html">Temperature</a>
+          <a href="bias_adjustment.html">Bias Adjustment</a>
         </li>
         <li class="divider"></li>
         <li>
-          <a href="merging_rainfall.html">Relative humidity</a>
+          <a href="merging_data.html">Merging Data</a>
         </li>
         <li class="divider"></li>
-        <li>
-          <a href="merging_temperature.html">Pressure</a>
-        </li>
-        <li class="divider"></li>
-        <li>
-          <a href="merging_rainfall.html">Radiation</a>
-        </li>
-        <li class="divider"></li>
-        <li>
-          <a href="merging_temperature.html">Wind data</a>
-        </li>
       </ul>
     </li>
     <li class="divider"></li>
@@ -937,7 +926,7 @@ f(B_x,B_y ) \approx \sum_{i=1}^{n}\sum_{j=1}^{m} w_i w_j f(dx_i, dy_j)
 <div style="line-height: 100%;">
 <p>(<strong><span style="color: black; font-size:2rem;">+</span></strong>) the grid nodes for the interpolation; (<strong><span style="color: red; font-size:3rem;vertical-align: middle">•</span></strong>) one grid node to interpolate, taken as example to show the size of the block; (<strong><span style="color: red; font-size:2rem;">+</span></strong>) points on which the data will be interpolated before averaging it to get the value at (<strong><span style="color: red; font-size:3rem;vertical-align: middle">•</span></strong>).</p>
 </div>
-<p>To set the size of the block in CDT, you can use the function <code>interpolation.options()</code> for the spatial interpolation menu and <code>merging.options()</code> for the merging menus. For example, to use a Gaussian quadrature defined block with 1.5 degree width in longitude and 2 degree width in latitude</p>
+<p>To set the size of the block in CDT, you can use the function <code>interpolation.options()</code> for the spatial interpolation menu, <code>biascoeff.options()</code> for the bias adjustment menus, and <code>merging.options()</code> for the merging menus. For example, to use a Gaussian quadrature defined block with 1.5 degree width in longitude and 2 degree width in latitude</p>
 <pre class="r"><code>merging.options(blockType = &quot;gaussian&quot;, blockSize = c(1.5, 2))</code></pre>
 <p>The figure below shows the maps of interpolated stations data using different blocks values: 0 (no smoothing), 0.5, 1, 1.5 and 2 degree. The more you increase the value of the block, the more the interpolated surface is smooth. Using a block mean tends to remove the bullseye effect from the interpolated surface.</p>
 <br>
@@ -949,7 +938,7 @@ f(B_x,B_y ) \approx \sum_{i=1}^{n}\sum_{j=1}^{m} w_i w_j f(dx_i, dy_j)
 <div id="user-defined-rectangular-shaped-block" class="section level3">
 <h3>User defined rectangular shaped block</h3>
 <p>You can define the size of the block by specifying the width and the increment to use for the longitude and latitude.</p>
-<p>In CDT the creation of the block can be done with the function <code>interpolation.options()</code> for the spatial interpolation menu and <code>merging.options()</code> for the merging menus. For example, to create a block with 2 degree width and increment 0.15 degree in longitude and 1 degree width and increment 0.1 degree in latitude</p>
+<p>In CDT the creation of the block can be done with the function <code>interpolation.options()</code> for the spatial interpolation menu,<code>biascoeff.options()</code> for the bias adjustment menus and <code>merging.options()</code> for the merging menus. For example, to create a block with 2 degree width and increment 0.15 degree in longitude and 1 degree width and increment 0.1 degree in latitude</p>
 <pre class="r"><code>## blockSize is a vector of length 4 in the form (width_x, by_x, width_y, by_y)
 merging.options(blockType = &quot;userdefined&quot;, blockSize = c(2, 0.15, 1.5, 0.1))</code></pre>
 <p>We can represent it in a grid as follow</p>
