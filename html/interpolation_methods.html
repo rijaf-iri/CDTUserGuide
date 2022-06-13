@@ -459,7 +459,6 @@ div.tocify {
         <li>
           <a href="merging_data.html">Merging Data</a>
         </li>
-        <li class="divider"></li>
       </ul>
     </li>
     <li class="divider"></li>
@@ -609,12 +608,42 @@ div.tocify {
 <img src="../images/gridding/spatial_interpolation/global_local_interp.png" style="width:100.0%;height:100.0%" />
 </center>
 <p><br></p>
+<p><br />
+</p>
+</div>
+<div id="search-radius" class="section level2">
+<h2>Search radius <a name="var.maxdist"></a></h2>
+<p>When performing a local interpolation with CDT, we need to provide the minimum (<em>nmin</em>) and maximum (<em>nmax</em>) number of neighbors points to use to interpolate a grid node, and a fixed maximum distance (<em>maxdist</em>) to define the search radius. A local interpolation can be performed by only specifying <em>nmax</em> without providing <em>maxdist</em>, this implies that the search radius will be variable for each grid node. The size of the search radius depends on the spatial distribution of the stations. Over a region with high density of stations the search radius is small, while over a region with sparse station the search radius becomes big. The figure below shows an example of the size of the search radius depending on the spatial density of the station; left: a representation of a fixed <em>maxdist</em> = 0.75 <em>degree</em> with <em>nmax</em> = 6; right: an example of a variable search radius. When <em>maxdist</em> is not specified, the selection of the neighbor stations only depends on <em>nmax</em>.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center">fixed radius: <em>maxdist</em> = 0.75 <em>degree</em>, <em>nmax</em> = 6</th>
+<th align="center">variable radius: <em>nmax</em> = 6</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><img src="../images/gridding/spatial_interpolation/maxdist_fix_interp.png" /></td>
+<td align="center"><img src="../images/gridding/spatial_interpolation/maxdist_var_interp.png" /></td>
+</tr>
+</tbody>
+</table>
+<p>Note that there is no missing value in the interpolated data when the interpolation only depends on <em>nmax</em>, whereas if <em>maxdist</em> is specified and the number of stations found within the search radius is less than <em>nmin</em> then the interpolated value is missing. The figure below shows the interpolated data using the inverse distance weighted method; left: stations observations; middle: using <em>nmin</em> = 3, <em>nmax</em> = 6 and <em>maxdist</em> = 0.75, when the minimum number of stations (<em>nmin</em>) is not reached for a grid node the interpolated data is missing; right: with variable radius and <em>nmax</em> = 6.</p>
+<br>
+<center>
+<img src="../images/gridding/spatial_interpolation/maxdist_interp.png" style="width:100.0%;height:100.0%" />
+</center>
+<p><br></p>
+<p><br />
+</p>
 </div>
 <div id="deterministic-vs.-stochastic-interpolation" class="section level2">
 <h2>Deterministic vs. stochastic interpolation <a name="interp.stochas"></a></h2>
 <p>There are two main groupings of interpolation methods: deterministic and stochastic. Deterministic interpolation method is based on exactly predetermined spatial contexts such as the extent of similarity or the degree of smoothing. Stochastic interpolation method, on the other hand, considers random functions, including the spatial dependence between points; it quantifies the spatial autocorrelation among measured points and account for the spatial configuration of the sample points around the prediction location.</p>
 <p>Deterministic interpolation method provides no assessment of errors with predicted values, while a stochastic interpolation method offers assessment of predictions errors with estimated variances.</p>
 <p>CDT has 4 deterministic interpolation methods: inverse distance weighted, modified Shepard interpolation, Spheremap interpolation method and nearest neighbor; and 2 stochastic interpolation methods: ordinary kriging and universal kriging.</p>
+<p><br />
+</p>
 </div>
 <div id="cdt-spatial-interpolation-methods" class="section level2">
 <h2>CDT spatial interpolation methods</h2>
@@ -843,6 +872,8 @@ w_{21} = \frac{(x − x_1) (y_2 − y)}{(x_2 − x_1) (y_2 − y_1)}\\
 w_{22} = \frac{(x − x_1) (y − y_1)}{(x_2 − x_1) (y_2 − y_1)}
 \]</span></p>
 <p>CDT mainly uses bilinear interpolation for regridding a gridded data from low resolution to a high resolution data.</p>
+<p><br />
+</p>
 </div>
 </div>
 <div id="spatial-smoothing" class="section level2">

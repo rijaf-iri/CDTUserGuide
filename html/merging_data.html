@@ -459,7 +459,6 @@ div.tocify {
         <li>
           <a href="merging_data.html">Merging Data</a>
         </li>
-        <li class="divider"></li>
       </ul>
     </li>
     <li class="divider"></li>
@@ -590,14 +589,171 @@ div.tocify {
 </div>
 
 
-<div id="rainfall" class="section level2">
-<h2>Rainfall</h2>
-</div>
-<div id="other-climate-variables" class="section level2">
-<h2>Other climate variables</h2>
+<div id="climate-data" class="section level2">
+<h2>Climate data</h2>
+<p>The menu <span class="menuselection">Gridding ‣ Merging Climate Data ‣ &lt;<em>name of the climate variable</em> &gt; ‣ Merging Data</span>   allows to merge stations observation data with gridded data, where &lt;<em>name of the climate variable</em> &gt; is one of rainfall, temperature, relative humidity, radiation and pressure data.</p>
+<p><br />
+<br />
+The tab <span class="ongletclass">   Input Data   </span>   allows to specify the input station and gridded data, the period over which the data will be merged and the folder to save the output.</p>
+<br>
+<center>
+<img src="../images/gridding/merging_data/clim_merging_input.png" style="width:47.0%;height:50.0%" />
+</center>
+<p><br></p>
+<ol style="list-style-type: decimal">
+<li><p>Select the temporal resolution of the data. Available temporal resolution are: <em>daily</em>, <em>pentad</em>, <em>dekadal</em> and <em>monthly data</em>.</p></li>
+<li><p>Set the start and end date of the period over which the data will be merged. See <a href="cdt_data_input.html#cdt.date.range">setting date range</a> for more details.</p></li>
+<li><p>Select the file containing the station data (in CDT station data format) to use from the drop down list if it is already loaded, or open it through <img src="../images/common/browsefiledir.png" title="Browse for a file" id="cdtIconsBr" class="cdtIconsBr" />.</p></li>
+<li><p>Type the full path to the folder containing the netCDF files or browse it from the button <img src="../images/common/browsefiledir.png" title="Browse for a file" id="cdtIconsBr" class="cdtIconsBr" /> on the right.</p></li>
+<li><p>Provide a netCDF sample file and change the filename format of the netCDF file through the <a href="cdt_data_input.html#cdt.ncdf.setting">netCDF settings</a> dialog by clicking on the <span class="buttonclass">   Settings </span>   button.</p></li>
+<li><p>Type the full path to the folder to save the merged data, or use the browse button <img src="../images/common/browsefiledir.png" title="Browse for a file" id="cdtIconsBr" class="cdtIconsBr" />.</p></li>
+<li><p>Specify the <a href="cdt_data_input.html#cdt.ncdf.ffrmt">netCDF filename format</a> of the output merged files.</p></li>
+</ol>
+<p><br />
+<br />
+The tab <span class="ongletclass">   Merging Parameters   </span>   allows to select the method and set all the parameters for the merging.</p>
+<br>
+<center>
+<img src="../images/gridding/merging_data/merging_params.png" style="width:46.0%;height:50.0%" />
+</center>
+<p><br></p>
+<ol style="list-style-type: decimal">
+<li><p>Select the method to use to merge the data. CDT has 4 methods to compute the bias coefficients: <strong><em>Simple Bias Adjustment</em></strong>, <strong><em>Regression Kriging</em></strong>, <strong><em>Cressman Scheme</em></strong> and <strong><em>Barnes Scheme</em></strong>. See <a href="merging_methods.html">CDT merging methods</a> page for more information.</p>
+<p>In case of <strong><em>Regression Kriging</em></strong>, you have to provide the auxiliaries variables to be used. An frame is displayed allowing you to select the variables to use. You can use one or more auxiliaries variables. Available choices are <strong><em>elevation</em></strong>, <strong><em>slope</em></strong>, <strong><em>aspect</em></strong>, <strong><em>longitude</em></strong> and <strong><em>latitude</em></strong> data. You include one of the <strong><em>elevation</em></strong>, <strong><em>slope</em></strong> or <strong><em>aspect</em></strong> data as auxiliary variable, you will need to provide the elevation data (in netCDF format). The slope and aspect are computed from the digital elevation model you provided.</p>
+<p><br></p>
+<center>
+<p><img src="../images/gridding/merging_data/merging_rk.png" style="width:50.0%;height:23.0%" /></p>
+</center>
+<p><br></p></li>
+<li><p>Specify the number of nested run to be performed, then edit the pass ratio for each run separated by comma. The number of run must be equal to the length of the pass ratio. Refer to the <a href="merging_methods.html#merging.nested.run">CDT merging nested run</a> page for more information</p></li>
+<li><p>Click on the button <span class="buttonclass">     Merging Interpolation Parameters   </span>   to open the <a href="interpolation_dialog.html">interpolation dialog</a> to select the interpolation method to be used and set the all parameters for the interpolation.</p>
+<p><br></p>
+<center>
+<p><img src="../images/gridding/merging_data/merging_interp_parameter.png" style="width:50.0%;height:30.0%" /></p>
+</center>
+<p><br></p>
+<p>By default, CDT uses a fixed search radius defined by <em>maxdist</em>, which means that all the stations used to interpolate a grid node are selected within a radius <em>maxdist</em>. CDT can allow you to select the stations used to interpolate a grid node by only providing <em>nmin</em> and <em>nmax</em>; this implies that <em>maxdist</em> is variable, <em>maxdist</em> is small over the region with high density of station and becomes large over the region with sparse stations. Check <img src='../images/common/checkbox.png' title='Checkbox' class='radiochckbutclass' /><span class="radiochcktextclass">   Use variable radius of influence for each grid   </span>   to use non fixed <em>maxdist</em>. See <a href="interpolation_methods.html#var.maxdist">variable search radius</a> for more details.</p></li>
+<li><p>Click on the button <span class="buttonclass">     Create Grid for Interpolation   </span>   to create the grid to be used to interpolate the data. It will display the <a href="interpolation_grid.html">grid creation</a> dialog.</p></li>
+<li><p>Check <img src='../images/common/checkbox.png' title='Checkbox' class='radiochckbutclass' /><span class="radiochcktextclass">   Blank merged data using ESRI shapefiles   </span>   box to mask the grid outside of polygons (blanking) from an ESRI shapefile. Before executing the merging process, set the options on how to add or remove the buffer outside the polygons used to mask the grid. See <a href="blanking_options.html">blanking options</a> for more details.</p></li>
+<li><p>In case of rainfall data, check <img src='../images/common/checkbox.png' title='Checkbox' class='radiochckbutclass' /><span class="radiochcktextclass">   Apply Rain-no-Rain Mask   </span>   box to create a mask over the region there is no observed rain from the stations. See the method used for the <a href="merging_methods.html#rain.no.rain">application of a rain-no-rain mask</a> for more details. Specify the threshold to define the a no rain value, below this threshold the rainfall is set to zero and one above for the mask. To prevent a steep gradient in the interpolated mask, check <img src='../images/common/checkbox.png' title='Checkbox' class='radiochckbutclass' /><span class="radiochcktextclass">   Smooth Rain-no-Rain Mask   </span>   box to apply a spatial smoothing in the interpolated mask.</p></li>
+</ol>
+<p>Before running the merging process, change the merging options, if it’s not done yet, using the function <code>merging.options()</code>. You can change the minimum number of stations to use to perform the merging, the regression kriging or fit the variogram if you use ordinary kriging for the interpolation. You also can change the size of the block to use for the spatial smoothing. The values by default of the function <code>merging.options()</code> are as follows</p>
+<pre class="r"><code>merging.options()</code></pre>
+<pre><code>## $mrgMinNumberSTN
+## [1] 10
+## 
+## $rkMinNumberSTN
+## [1] 20
+## 
+## $vgmMinNumberSTN
+## [1] 20
+## 
+## $useLocalInterpolation
+## [1] TRUE
+## 
+## $powerWeightIDW
+## [1] 2
+## 
+## $powerWeightShepard
+## [1] 0.7
+## 
+## $powerWeightBarnes
+## [1] 0.5
+## 
+## $addCoarseGrid
+## [1] TRUE
+## 
+## $resCoarseGrid
+## [1] 0.5
+## 
+## $saveGridBuffer
+## [1] FALSE
+## 
+## $dirGridBuffer
+## [1] &quot;/Users/rijaf&quot;
+## 
+## $saveRnoR
+## [1] FALSE
+## 
+## $dirRnoR
+## [1] &quot;/Users/rijaf&quot;
+## 
+## $RnoRModel
+## [1] &quot;logit&quot;
+## 
+## $RnoRCutOff
+## [1] 3
+## 
+## $RnoRaddCoarse
+## [1] TRUE
+## 
+## $RnoRUseMerged
+## [1] FALSE
+## 
+## $RnoRSmoothingPixels
+## [1] 2
+## 
+## $blockType
+## [1] &quot;gaussian&quot;
+## 
+## $blockSize
+## [1] 1 1</code></pre>
+<p>Type into the R console the following command to get help on the available arguments of this function</p>
+<pre class="r"><code>?merging.options</code></pre>
+<p><br />
+<br />
+Click on the button <img src="../images/common/execute24.gif" title="Execute the append task" id="cdtIcons" class="cdtIcons" /> to start the merging.</p>
+<p>A folder named <strong>MERGED_</strong>&lt;<strong><em>name of climate variable</em></strong>&gt;_<strong>Data</strong>_&lt;<strong><em>start date</em></strong>&gt;_&lt;<strong><em>end date</em></strong>&gt; will be created under the folder you provided to save the outputs. It contains the netCDF files of the merged data and a log file.</p>
+<p><br />
+</p>
 </div>
 <div id="wind-data" class="section level2">
 <h2>Wind data</h2>
+<p>The menu <span class="menuselection">Gridding ‣ Merging Climate Data ‣ Wind Data ‣ Merging Data</span>   allows to merge wind data from stations with gridded data.</p>
+<p><br />
+<br />
+The tab <span class="ongletclass">   Input Data   </span>   allows to specify the input station and gridded data, the period over which the data will be merged and the folder to save the output.</p>
+<br>
+<center>
+<img src="../images/gridding/merging_data/wind_merging_input.png" style="width:47.0%;height:64.0%" />
+</center>
+<p><br></p>
+<ol style="list-style-type: decimal">
+<li><p>Select the temporal resolution of the data. Available temporal resolution are: <em>daily</em>, <em>pentad</em>, <em>dekadal</em> and <em>monthly data</em>.</p></li>
+<li><p>Set the start and end date of the period over which the data will be merged. See <a href="cdt_data_input.html#cdt.date.range">setting date range</a> for more details.</p></li>
+<li><p>Select the wind variables to be used: wind <strong><em>Speed</em></strong> only or the <strong><em>U and V components</em></strong> of the wind data.</p></li>
+<li><p>If the <strong><em>wind speed</em></strong> is selected in (<strong>3</strong>), provide the file containing the wind speed data (in CDT station data format) to use. In case of <strong><em>U and V components</em></strong>, you have to provide the files containing the station data for U-component and V-component of the wind data (in CDT station data format). You can select the files from the drop down list if it is already loaded, or open it through <img src="../images/common/browsefiledir.png" title="Browse for a file" id="cdtIconsBr" class="cdtIconsBr" />.</p></li>
+</ol>
+<br>
+<center>
+<img src="../images/gridding/merging_data/wind_merging_uv_stn.png" style="width:45.0%;height:27.0%" />
+</center>
+<p><br></p>
+<ol start="5" style="list-style-type: decimal">
+<li>If the <strong><em>wind speed</em></strong> is selected in (<strong>3</strong>), type the full path to the folder containing the netCDF files or browse it from the button <img src="../images/common/browsefiledir.png" title="Browse for a file" id="cdtIconsBr" class="cdtIconsBr" /> on the right. In case of <strong><em>U and V components</em></strong>, provide the full path to the folder containing the netCDF wind data files; if the U and V components are stored in separate files, uncheck <img src='../images/common/checkbox.png' title='Checkbox' class='radiochckbutclass' /><span class="radiochcktextclass">   U and V components are in one NetCDF file   </span>   and provide the full paths to the folder containing the netCDF U-component and V-component files.</li>
+</ol>
+<br>
+<center>
+<img src="../images/gridding/merging_data/wind_merging_uv_nc.png" style="width:45.0%;height:18.0%" />
+</center>
+<p><br></p>
+<ol start="6" style="list-style-type: decimal">
+<li><p>Provide a netCDF sample file and change the filename format of the netCDF file through the <a href="cdt_data_input.html#cdt.ncdf.setting">netCDF settings</a> dialog by clicking on the <span class="buttonclass">   Settings </span>   button.</p></li>
+<li><p>Type the full path to the folder to save the merged data, or use the browse button <img src="../images/common/browsefiledir.png" title="Browse for a file" id="cdtIconsBr" class="cdtIconsBr" />.</p></li>
+<li><p>Specify the <a href="cdt_data_input.html#cdt.ncdf.ffrmt">netCDF filename format</a> of the output files. In case of U and V components stored in different files, specify the netCDF filename format for each component.</p></li>
+</ol>
+<br>
+<center>
+<img src="../images/gridding/merging_data/wind_merging_uv_frmt.png" style="width:50.0%;height:21.0%" />
+</center>
+<p><br></p>
+<p><br />
+<br />
+All the parameters for the merging in the tab <span class="ongletclass">   Merging Parameters   </span>   are the same as the other climate variables described above.</p>
+<p>After setting all the required parameters and changing the merging options from the function <code>merging.options</code>, if any, click on the button <img src="../images/common/execute24.gif" title="Execute the append task" id="cdtIcons" class="cdtIcons" /> to start the merging process.</p>
+<p><br />
+<br />
+A folder named <strong>MERGED_Wind_Data_</strong>&lt;<strong><em>start date</em></strong>&gt;_&lt;<strong><em>end date</em></strong>&gt; will be created under the folder you provided to save the outputs. It contains the netCDF files of the merged data and a log file.</p>
 </div>
 
 <footer class="navbar navbar-inverse  navbar-fixed-bottom">

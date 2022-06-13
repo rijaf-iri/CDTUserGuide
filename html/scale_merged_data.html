@@ -377,7 +377,6 @@ $(document).ready(function () {
         <li>
           <a href="merging_data.html">Merging Data</a>
         </li>
-        <li class="divider"></li>
       </ul>
     </li>
     <li class="divider"></li>
@@ -508,9 +507,45 @@ $(document).ready(function () {
 </div>
 
 
-<!--
-image dir /images/gridding/scale_merged_data
--->
+<p>When performing merging using higher temporal resolution (e.g. daily data) and lower temporal resolution (e.g. dekadal data), the values of the aggregated data (total or average) from the higher to the lower temporal resolution are not the same as the lower temporal resolution merged data. The higher temporal resolution merged data need to be scaled to match the lower temporal resolution merged when aggregated.</p>
+<p>For example, if you are performing merging with daily and dekadal rainfall data, when you compute the dekadal total rainfall from the merged daily data, the dekadal totals are not equal to the merged dekadal directly. This comes from the fact that the aggregated data lose part of its variability both in time and space. The merged data at a dekadal temporal resolution are more accurate compared to the daily. If <span class="math inline">\(x_i\)</span> is the daily and <span class="math inline">\(y\)</span> the dekadal merged data for one grid, a scale factor <span class="math inline">\(s\)</span> is computed first with</p>
+<p><span class="math display">\[
+s = \begin{cases}
+\frac{y}{x} &amp; \text{for summed variables} \\[2ex]
+\frac{ny}{x} &amp; \text{for averaged variables}
+\end{cases}
+\]</span></p>
+<p>where <span class="math inline">\(x = \sum_{i=1}^{n} x_i\)</span>, and <span class="math inline">\(n\)</span> is the number of day for one dekad. The scaled daily merged data <span class="math inline">\(\overline{x_i}\)</span> is obtained by</p>
+<p><span class="math display">\[ \overline{x_i} = s x_i\]</span></p>
+<p>The menu <span class="menuselection">Gridding ‣ Scale Merged Data</span>   allows to scale a merged gridded data with higher temporal resolution using a lower temporal resolution merged gridded data.</p>
+<br>
+<center>
+<img src="../images/gridding/scale_merged_data/scale_merged_data.png" style="width:50.0%;height:46.0%" />
+</center>
+<p><br></p>
+<ol style="list-style-type: decimal">
+<li><p>Select the temporal resolution of the data. Available temporal resolution are: <em>daily</em>, <em>pentad</em> and <em>dekadal</em> data.</p></li>
+<li><p>Set the start and end date of the period over which the data will be scaled. See <a href="cdt_data_input.html#cdt.date.range">setting date range</a> for more details.</p></li>
+<li><p>Enter the full path to the folder containing the netCDF files to be scaled (higher temporal resolution), or browse it from the button <img src="../images/common/browsefiledir.png" title="Browse for a file" id="cdtIconsBr" class="cdtIconsBr" /> on the right.</p></li>
+<li><p>Provide a netCDF sample file and change the filename format of the netCDF file through the <a href="cdt_data_input.html#cdt.ncdf.setting">netCDF settings</a> dialog by clicking on the <span class="buttonclass">   Settings </span>   button.</p></li>
+<li><p>Enter the full path to the folder containing the netCDF files to be used for scaling (lower temporal resolution), or browse it from the button <img src="../images/common/browsefiledir.png" title="Browse for a file" id="cdtIconsBr" class="cdtIconsBr" /> on the right.</p></li>
+<li><p>Select the temporal resolution of the netCDF files to be used for scaling, provide a netCDF sample file and change the filename format of the netCDF file through the netCDF settings dialog by clicking on the <span class="buttonclass">   Settings </span>   button.</p></li>
+</ol>
+<br>
+<center>
+<img src="../images/gridding/scale_merged_data/aggregated_ncdf_setting.png" style="width:40.0%;height:20.0%" />
+</center>
+<p><br></p>
+<ol start="7" style="list-style-type: decimal">
+<li><p>Select the function to be used for the scaling. <strong><em>sum</em></strong> for summed variables (e.g., rainfall, …) and <strong><em>mean</em></strong> for averaged variables (e.g., temperature, …).</p></li>
+<li><p>Enter the full path to the folder to save the scaled data, or use the browse button <img src="../images/common/browsefiledir.png" title="Browse for a file" id="cdtIconsBr" class="cdtIconsBr" />.</p></li>
+</ol>
+<p><br />
+<br />
+Click on the button <img src="../images/common/execute24.gif" title="Execute the append task" id="cdtIcons" class="cdtIcons" /> to start the scaling.</p>
+<p>A folder named <strong>Merged_ScaledData</strong> will be created under the folder you provided in (<strong>8</strong>) to save the outputs. It contains the scaled data in netCDF format.</p>
+<p><br />
+</p>
 
 <footer class="navbar navbar-inverse  navbar-fixed-bottom">
     <p>

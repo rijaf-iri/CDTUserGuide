@@ -459,7 +459,6 @@ div.tocify {
         <li>
           <a href="merging_data.html">Merging Data</a>
         </li>
-        <li class="divider"></li>
       </ul>
     </li>
     <li class="divider"></li>
@@ -593,17 +592,66 @@ div.tocify {
 <div id="temperatures" class="section level2">
 <h2>Temperatures</h2>
 <div id="compute-downscaling-coefficients" class="section level3">
-<h3>Compute Downscaling Coefficients</h3>
+<h3>Compute downscaling coefficients</h3>
+<p>The source of the gridded temperature data mostly comes from a <a href="https://reanalyses.org">reanalysis</a> which has a lower spatial resolution ranging from 0.25 to 2.5 degree. To get a gridded temperature data with a higher spatial resolution we need to downscale the data. Since the temperature varies with the altitude, the elevation data will be used to compute a constant lapse rates for each month. You can refer to the <a href="downscaling_methods.html#temp.down.coeff">downscaling method</a> CDT uses to compute the coefficients for temperature data for more details.</p>
+<blockquote>
+<p>The color light blue of the menu means that you only need to compute the downscaling coefficients once. Indeed, you will need a long series and quality controlled station data to compute the coefficients. Once the coefficients are calculated you can use it to downscale the reanalysis data.</p>
+</blockquote>
+<p>The menu <span class="menuselection">Gridding ‣ Merging Climate Data ‣ Temperature Data ‣ Compute Downscaling Coefficients</span>   allows to compute the downscaling coefficients for each month.</p>
+<br>
+<center>
+<img src="../images/gridding/downscaling/temp_downscaling_coef.png" style="width:50.0%;height:37.0%" />
+</center>
+<p><br></p>
+<ol style="list-style-type: decimal">
+<li><p>Select the temporal resolution of the input temperature data. Available temporal resolution are: <em>daily</em>, <em>pentad</em>, <em>dekadal</em> and <em>monthly data</em>.</p></li>
+<li><p>Click on the <span class="buttonclass">     Set Base Period   </span>   button to specify the period and minimum number of year to be use to compute the coefficients. All the parameters can be set in the <a href="selecting_period.html#base.period">base period setting</a> dialog.</p></li>
+<li><p>Select the file containing the temperature data (in CDT station data format) to use from the drop down list if it is already loaded, or open it through <img src="../images/common/browsefiledir.png" title="Browse for a file" id="cdtIconsBr" class="cdtIconsBr" />.</p></li>
+<li><p>Provide the elevation data (netCDF format) to be used. Select it from the drop down list if it is already loaded, or open it through <img src="../images/common/browsefiledir.png" title="Browse for a file" id="cdtIconsBr" class="cdtIconsBr" />.</p></li>
+<li><p>Type the full path to the folder to save the computed downscaling coefficients, or use the browse button <img src="../images/common/browsefiledir.png" title="Browse for a file" id="cdtIconsBr" class="cdtIconsBr" />.</p></li>
+</ol>
+<p><br />
+</p>
+<p>Click on the button <img src="../images/common/execute24.gif" title="Execute the append task" id="cdtIcons" class="cdtIcons" /> to start the computation.</p>
+<p>A folder named <strong>CoefDownTemp_</strong>&lt;<strong><em>file name of station data</em></strong>&gt; will be created under the folder you provided (<strong>5</strong>) to save the outputs. This folder contains two files:</p>
+<ul>
+<li><strong>STN_DEM_GLM_COEF.rds</strong>: you will need this file when you are going to to downscale the reanalysis data.</li>
+<li><strong>STN_DEM_GLM_COEF.txt</strong>: a text file containing the coefficients of the fitted linear regression (intercept and slope) for each month. See the <a href="downscaling_methods.html#temp.down.coeff">downscaling method</a> for further details.</li>
+</ul>
+<p><br />
+</p>
 </div>
 <div id="downscaling-data" class="section level3">
-<h3>Downscaling Data</h3>
+<h3>Downscaling data</h3>
+<p>The menu <span class="menuselection">Gridding ‣ Merging Climate Data ‣ Temperature Data ‣ Downscaling Data</span>   allows to downscale the reanalysis data using the computed downscaling coefficients.</p>
+<br>
+<center>
+<img src="../images/gridding/downscaling/temp_downscaling.png" style="width:50.0%;height:57.0%" />
+</center>
+<p><br></p>
+<ol style="list-style-type: decimal">
+<li><p>Select the temporal resolution of the input temperature data. Available temporal resolution are: <em>daily</em>, <em>pentad</em>, <em>dekadal</em> and <em>monthly data</em>.</p></li>
+<li><p>Set the start and end date of the period over which the reanalysis data will be downscaled. See <a href="cdt_data_input.html#cdt.date.range">setting date range</a> for more details.</p></li>
+<li><p>Provide the full path to the file <strong>STN_DEM_GLM_COEF.rds</strong> containing the downscaling coefficients, or use the browse button <img src="../images/common/browsefiledir.png" title="Browse for a file" id="cdtIconsBr" class="cdtIconsBr" /> to open it.</p></li>
+<li><p>Type the full path to the folder containing the reanalysis data files (netCDF format) or browse it from the button <img src="../images/common/browsefiledir.png" title="Browse for a file" id="cdtIconsBr" class="cdtIconsBr" /> on the right.</p></li>
+<li><p>Provide a netCDF sample file and change the filename format of the netCDF file through the <a href="cdt_data_input.html#cdt.ncdf.setting">netCDF settings</a> dialog by clicking on the <span class="buttonclass">   Settings </span>   button.</p></li>
+<li><p>Provide the digital elevation model (DEM) data (netCDF format) to be used for the downscaling.</p></li>
+<li><p>Click on the <span class="buttonclass">      Downscaling Interpolation Parameters    </span>   button to set the parameters of the interpolation. You can choose from 3 interpolation methods: <em>inverse distance weighted</em>, <em>bilinear</em> and <em>ordinary kriging</em>. See the <a href="interpolation_dialog.html">interpolation dialog</a> to select the method to be used and set the interpolation parameters; and <a href="interpolation_methods.html#interp.local">spatial interpolation methods</a> for further details.</p></li>
+<li><p>Click on the <span class="buttonclass">     Create Grid for Interpolation   </span>   button to provide the grid to be used to interpolate the data. It will display the <a href="interpolation_grid.html">grid creation</a> dialog box.</p></li>
+<li><p>Type the full path to the folder to save the downscaled temperature data, or use the browse button <img src="../images/common/browsefiledir.png" title="Browse for a file" id="cdtIconsBr" class="cdtIconsBr" />.</p></li>
+<li><p>Specify the <a href="cdt_data_input.html#cdt.ncdf.ffrmt">netCDF filename format</a> of the output files.</p></li>
+</ol>
+<p><br />
+<br />
+Click on the button <img src="../images/common/execute24.gif" title="Execute the append task" id="cdtIcons" class="cdtIcons" /> to start the downscaling.</p>
+<p>A folder named <strong>Downscaled_Reanalysis_</strong>_&lt;<strong><em>start date</em></strong>&gt;_&lt;<strong><em>end date</em></strong>&gt; will be created under the folder you provided in (<strong>9</strong>) to save the outputs. It contains the downscaled temperature data in netCDF format.</p>
 </div>
-</div>
-<div id="relative-humidity" class="section level2">
-<h2>Relative humidity</h2>
 </div>
 <div id="pressure" class="section level2">
 <h2>Pressure</h2>
+</div>
+<div id="relative-humidity" class="section level2">
+<h2>Relative humidity</h2>
 </div>
 <div id="radiation" class="section level2">
 <h2>Radiation</h2>

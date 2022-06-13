@@ -459,7 +459,6 @@ div.tocify {
         <li>
           <a href="merging_data.html">Merging Data</a>
         </li>
-        <li class="divider"></li>
       </ul>
     </li>
     <li class="divider"></li>
@@ -595,7 +594,7 @@ div.tocify {
 <p>CDT can handle hourly, daily, pentad (5-days), dekadal (10-days) or monthly series. A file can contains one station or several stations series. Each input stations data should be stored in a text/ASCII or CSV (Comma-separated values) format file.</p>
 <p>All the series from different stations for one variable are put together on a single file. It is the standard input data format used by CDT, in which the first line is the ID or name of the stations (<strong><em>avoid putting space in stations name</em></strong>), the second and third lines are longitude and latitude of the stations, and the fourth line is elevation data in meter (if it exists), and the following lines contain the observations, and the first column is the date of observations. The following tables show the format of the data</p>
 <!-- html table generated in R 4.0.3 by xtable 1.8-4 package -->
-<!-- Mon Jun  6 00:52:06 2022 -->
+<!-- Mon Jun 13 09:45:17 2022 -->
 <table id="cdtInputData" class="cdtInputData0" border="0">
 <caption align="top">
 CDT stations data format without elevation data
@@ -923,7 +922,7 @@ DAILY/LAT
 </table>
 <p><br></p>
 <!-- html table generated in R 4.0.3 by xtable 1.8-4 package -->
-<!-- Mon Jun  6 00:52:06 2022 -->
+<!-- Mon Jun 13 09:45:17 2022 -->
 <table id="cdtInputData" class="cdtInputData0" border="0">
 <caption align="top">
 CDT stations data format with elevation data
@@ -1305,8 +1304,9 @@ rfe2014_02-dk2.nc
 <p>Any time you open a NetCDF file, you will be asked to provide a sample file and select the target variable and the order of the coordinates (lat-lon or lon-lat).<br />
 The following examples show the order of the dimensions.</p>
 <pre class="r"><code>## Elevation/bathymetry, longitude (X) goes first then latitude (Y)
-require(ncdf4)
-nc &lt;- nc_open(&#39;../R_Data/DEM_2_Arc-Minute.nc&#39;)
+require(ncdf4)</code></pre>
+<pre><code>## Loading required package: ncdf4</code></pre>
+<pre class="r"><code>nc &lt;- nc_open(&#39;../R_Data/DEM_2_Arc-Minute.nc&#39;)
 nc</code></pre>
 <pre><code>## File ../R_Data/DEM_2_Arc-Minute.nc (NC_FORMAT_CLASSIC):
 ## 
