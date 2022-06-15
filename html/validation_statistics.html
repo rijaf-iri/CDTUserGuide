@@ -11,7 +11,7 @@
 
 
 
-<title>Spatial Points Data (CDT Station Format)</title>
+<title>Validation statistics</title>
 
 <script src="../libs/header-attrs-2.13/header-attrs.js"></script>
 <script src="../libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -502,157 +502,242 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Spatial Points Data (CDT Station Format)</h1>
+<h1 class="title toc-ignore">Validation statistics</h1>
 
 </div>
 
 
-<p>The menu <span class="menuselection">Validation ‣ Spatial Points Data (CDT Station Format) ‣ &lt;<em>name of the climate variable</em>&gt;</span>   allows to evaluate the performance of merged data performed with CDT, satellite rainfall estimates products and the output of climate models, and to evaluate the skill of a specific methods or parameters used for the bias adjustment or the merging. Here &lt;<em>name of the climate variable</em> &gt; is the <em>precipitation data</em> or <em>other climate data</em> such as the temperature, relative humidity, radiation, pressure or wind data. See the table of the computed <a href="validation_statistics.html">validation statistics</a> for more information.</p>
-<p>The gridded data is first extracted at the station locations using <span class="menuselection">Data Preparation ‣ Data Extarction</span>   before the computation of the validation statistics.</p>
+<p>CDT computes several statistics to evaluate the performance of merged data performed with CDT, satellite rainfall estimates products and the output of climate models, and to evaluate the skill of a specific methods or parameters used for the bias adjustment or the merging. These statistics can be classified into 3 groups: <em>continuous</em>, <em>categorical</em> and <em>volumetric</em>. The following table shows the list of all computed statistics.</p>
 <p><br />
-<br />
-The tab <span class="ongletclass">   Input   </span>   allows to specify the input station data used to validate and the extracted gridded data at the station locations to be evaluated, and the folder to save the output.</p>
-<br>
-<center>
-<img src="../images/validation/cv_spt_input.png" style="width:50.0%;height:39.0%" />
-</center>
-<p><br></p>
-<ol style="list-style-type: decimal">
-<li><p>Select the temporal resolution of the data. Available temporal resolution are: <em>daily</em>, <em>pentad</em>, <em>dekadal</em> and <em>monthly data</em>.</p></li>
-<li><p>Select the file containing the station data (in CDT station data format) used to validate from the drop down list if it is already loaded, or open it through <img src="../images/common/browsefiledir.png" title="Browse for a file" id="cdtIconsBr" class="cdtIconsBr" />.</p></li>
-<li><p>Select the file containing the station data (in CDT station data format) to be evaluated from the drop down list if it is already loaded, or open it through <img src="../images/common/browsefiledir.png" title="Browse for a file" id="cdtIconsBr" class="cdtIconsBr" />.</p></li>
-<li><p>Enter the full path to the folder to save the output, or use the browse button <img src="../images/common/browsefiledir.png" title="Browse for a file" id="cdtIconsBr" class="cdtIconsBr" />.</p></li>
-</ol>
-<p><br />
-<br />
-The tab <span class="ongletclass">   Validation   </span>   allows to specify the season and the period over which the validation will be performed, and the way the validation statistics will be computed.</p>
-<br>
-<center>
-<img src="../images/validation/cv_spt_validation.png" style="width:50.0%;height:54.0%" />
-</center>
-<p><br></p>
-<ol style="list-style-type: decimal">
-<li>If you already performed a validation and you want to display the table of statistics, maps and graphs without providing again the input data, you can check <img src='../images/common/checkbox.png' title='Checkbox' class='radiochckbutclass' /><span class="radiochcktextclass">   Validation already performed   </span>  , it will activate the button <span class="buttonclass">     Load Data   </span>   allowing you to browse the file <strong>VALIDATION_DATA_OUT.rds</strong> under the folder <strong>VALIDATION_</strong>&lt;<em>name of the file containing the station data used to validate</em>&gt; which is created under the folder you provided to save the output.</li>
-</ol>
-<br>
-<center>
-<img src="../images/validation/load_validation_data.png" style="width:50.0%;height:12.0%" />
-</center>
-<p><br></p>
-<ol start="2" style="list-style-type: decimal">
-<li><p>Select the months or the season you want to include in the validation process. For example, if your input data is a daily rainfall and you want to perform the validation with the seasonal rainfall total of the rainy season.</p></li>
-<li><p>Provide the start and end year of the period over which the validation will be performed.</p></li>
-<li><p>If you want to aggregate the data before performing the validation, check the box <img src='../images/common/checkbox.png' title='Checkbox' class='radiochckbutclass' /><span class="radiochcktextclass">   Aggregate data before validation   </span>  , it will activate the button <span class="buttonclass">     Aggregation Function Parameters   </span>   allowing you to select the function to use to aggregate the data and to set the minimum number of observations to compute one output time step. See <a href="aggregate_Params.html#aggregate.params">Aggregation parameters</a> to set the parameters in the dialog box.</p></li>
-<li><p>Select the method to transform the data before computing the validation statistics. Available methods are: <strong><em>All Data</em></strong>, <strong><em>Spatial Average</em></strong> and <strong><em>Each Station</em></strong>.</p>
-<p>Suppose you have the CDT station format data to be used to validate (<em>station-observation</em>) and to be validated (<em>gridded-extracted</em>) as follow</p>
+</p>
 <table>
+<colgroup>
+<col width="18%" />
+<col width="18%" />
+<col width="22%" />
+<col width="22%" />
+<col width="18%" />
+</colgroup>
 <thead>
 <tr class="header">
-<th align="center"><em>station-observation</em></th>
-<th align="center"><em>gridded-extracted</em></th>
+<th align="left">Abbreviation Name</th>
+<th align="left">Long Name</th>
+<th align="center">Perfect Score</th>
+<th align="center">Statistics Group</th>
+<th align="left">Documentation</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="center"><img src="../images/validation/example_stn_obs.png" /></td>
-<td align="center"><img src="../images/validation/example_grd_ext.png" /></td>
+<td align="left">CORR</td>
+<td align="left">Correlation</td>
+<td align="center">1</td>
+<td align="center">Continuous</td>
+<td align="left"><a href="https://www.cawcr.gov.au/projects/verification/">Forecast verification</a></td>
 </tr>
-</tbody>
-</table>
-<p><strong><em>All Data</em></strong>: the validation statistics are computed from two series obtained by<br />
-concatenating the data of all stations from <em>station-observation</em> and <em>gridded-extracted</em> respectively. The data of the stations become</p>
-<table>
-<thead>
-<tr class="header">
-<th align="center"><em>station-observation</em></th>
-<th align="center"><em>gridded-extracted</em></th>
+<tr class="even">
+<td align="left">BR2</td>
+<td align="left">Coefficient of determination (R2) multiplied by the regression slope</td>
+<td align="center">1</td>
+<td align="center">Continuous</td>
+<td align="left"><a href="https://cran.r-project.org/web/packages/hydroGOF/hydroGOF.pdf">Package hydroGOF</a></td>
 </tr>
-</thead>
-<tbody>
 <tr class="odd">
-<td align="center"><img src="../images/validation/example_stn_alldata.png" style="width:10.0%;height:10.0%" /></td>
-<td align="center"><img src="../images/validation/example_grd_alldata.png" style="width:10.0%;height:10.0%" /></td>
+<td align="left">BIAS</td>
+<td align="left">Bias</td>
+<td align="center">1</td>
+<td align="center">Continuous</td>
+<td align="left"><a href="https://www.cawcr.gov.au/projects/verification/">Forecast verification</a></td>
 </tr>
-</tbody>
-</table>
-<p><strong><em>Spatial Average</em></strong>: the validation statistics are computed from two series obtained by spatially averaging <em>station-observation</em> and <em>gridded-extracted</em> respectively. The data would be as follow</p>
-<table>
-<thead>
-<tr class="header">
-<th align="center"><em>station-observation</em></th>
-<th align="center"><em>gridded-extracted</em></th>
+<tr class="even">
+<td align="left">PBIAS</td>
+<td align="left">Percent Bias</td>
+<td align="center">0</td>
+<td align="center">Continuous</td>
+<td align="left"><a href="https://www.cawcr.gov.au/projects/verification/">Forecast verification</a></td>
 </tr>
-</thead>
-<tbody>
 <tr class="odd">
-<td align="center"><img src="../images/validation/example_stn_sp.png" style="width:20.0%;height:20.0%" /></td>
-<td align="center"><img src="../images/validation/example_grd_sp.png" style="width:20.0%;height:20.0%" /></td>
+<td align="left">ME</td>
+<td align="left">Mean Error</td>
+<td align="center">0</td>
+<td align="center">Continuous</td>
+<td align="left"><a href="https://www.cawcr.gov.au/projects/verification/">Forecast verification</a></td>
+</tr>
+<tr class="even">
+<td align="left">MAE</td>
+<td align="left">Mean Absolute Error</td>
+<td align="center">0</td>
+<td align="center">Continuous</td>
+<td align="left"><a href="https://www.cawcr.gov.au/projects/verification/">Forecast verification</a></td>
+</tr>
+<tr class="odd">
+<td align="left">RMSE</td>
+<td align="left">Root Mean Square Error</td>
+<td align="center">0</td>
+<td align="center">Continuous</td>
+<td align="left"><a href="https://www.cawcr.gov.au/projects/verification/">Forecast verification</a></td>
+</tr>
+<tr class="even">
+<td align="left">NSE</td>
+<td align="left">Nash-Sutcliffe Efficiency</td>
+<td align="center">1</td>
+<td align="center">Continuous</td>
+<td align="left"><a href="https://www.cawcr.gov.au/projects/verification/">Forecast verification</a></td>
+</tr>
+<tr class="odd">
+<td align="left">MNSE</td>
+<td align="left">Modified Nash-Sutcliffe efficiency</td>
+<td align="center">1</td>
+<td align="center">Continuous</td>
+<td align="left"><a href="https://cran.r-project.org/web/packages/hydroGOF/hydroGOF.pdf">Package hydroGOF</a></td>
+</tr>
+<tr class="even">
+<td align="left">RNSE</td>
+<td align="left">Relative Nash-Sutcliffe efficiency</td>
+<td align="center">1</td>
+<td align="center">Continuous</td>
+<td align="left"><a href="https://cran.r-project.org/web/packages/hydroGOF/hydroGOF.pdf">Package hydroGOF</a></td>
+</tr>
+<tr class="odd">
+<td align="left">IOA</td>
+<td align="left">Index of Agreement</td>
+<td align="center">1</td>
+<td align="center">Continuous</td>
+<td align="left"><a href="https://cran.r-project.org/web/packages/hydroGOF/hydroGOF.pdf">Package hydroGOF</a></td>
+</tr>
+<tr class="even">
+<td align="left">MIOA</td>
+<td align="left">Modified index of agreement</td>
+<td align="center">1</td>
+<td align="center">Continuous</td>
+<td align="left"><a href="https://cran.r-project.org/web/packages/hydroGOF/hydroGOF.pdf">Package hydroGOF</a></td>
+</tr>
+<tr class="odd">
+<td align="left">RIOA</td>
+<td align="left">Relative Index of Agreement</td>
+<td align="center">1</td>
+<td align="center">Continuous</td>
+<td align="left"><a href="https://cran.r-project.org/web/packages/hydroGOF/hydroGOF.pdf">Package hydroGOF</a></td>
+</tr>
+<tr class="even">
+<td align="left">POD</td>
+<td align="left">Probability Of Detection</td>
+<td align="center">1</td>
+<td align="center">Categorical</td>
+<td align="left"><a href="https://www.cawcr.gov.au/projects/verification/">Forecast verification</a></td>
+</tr>
+<tr class="odd">
+<td align="left">POFD</td>
+<td align="left">Probability Of False Detection</td>
+<td align="center">0</td>
+<td align="center">Categorical</td>
+<td align="left"><a href="https://www.cawcr.gov.au/projects/verification/">Forecast verification</a></td>
+</tr>
+<tr class="even">
+<td align="left">FAR</td>
+<td align="left">False Alarm Ratio</td>
+<td align="center">0</td>
+<td align="center">Categorical</td>
+<td align="left"><a href="https://www.cawcr.gov.au/projects/verification/">Forecast verification</a></td>
+</tr>
+<tr class="odd">
+<td align="left">FBS</td>
+<td align="left">Frequency Bias (Bias score)</td>
+<td align="center">1</td>
+<td align="center">Categorical</td>
+<td align="left"><a href="https://www.cawcr.gov.au/projects/verification/">Forecast verification</a></td>
+</tr>
+<tr class="even">
+<td align="left">CSI</td>
+<td align="left">Critical Success Index</td>
+<td align="center">1</td>
+<td align="center">Categorical</td>
+<td align="left"><a href="https://www.cawcr.gov.au/projects/verification/">Forecast verification</a></td>
+</tr>
+<tr class="odd">
+<td align="left">HSS</td>
+<td align="left">Heidke Skill Score</td>
+<td align="center">1</td>
+<td align="center">Categorical</td>
+<td align="left"><a href="https://www.cawcr.gov.au/projects/verification/">Forecast verification</a></td>
+</tr>
+<tr class="even">
+<td align="left">MQB</td>
+<td align="left">Mean Quantile Bias</td>
+<td align="center">1</td>
+<td align="center">Volumetric</td>
+<td align="left"><a href="https://doi.org/10.1029/2010JD014741">(Aghakouchak et al., 2011)</a> and <a href="https://doi.org/10.1002/wrcr.20498">(Aghakouchak &amp; Mehran, 2013)</a></td>
+</tr>
+<tr class="odd">
+<td align="left">MQE</td>
+<td align="left">Mean Quantile Error</td>
+<td align="center">0</td>
+<td align="center">Volumetric</td>
+<td align="left"><a href="https://doi.org/10.1029/2010JD014741">(Aghakouchak et al., 2011)</a> and <a href="https://doi.org/10.1002/wrcr.20498">(Aghakouchak &amp; Mehran, 2013)</a></td>
+</tr>
+<tr class="even">
+<td align="left">VHI</td>
+<td align="left">Volumetric Hit Index</td>
+<td align="center">1</td>
+<td align="center">Volumetric</td>
+<td align="left"><a href="https://doi.org/10.1029/2010JD014741">(Aghakouchak et al., 2011)</a> and <a href="https://doi.org/10.1002/wrcr.20498">(Aghakouchak &amp; Mehran, 2013)</a></td>
+</tr>
+<tr class="odd">
+<td align="left">QPOD</td>
+<td align="left">Quantile Probability of Detection</td>
+<td align="center">1</td>
+<td align="center">Volumetric</td>
+<td align="left"><a href="https://doi.org/10.1029/2010JD014741">(Aghakouchak et al., 2011)</a> and <a href="https://doi.org/10.1002/wrcr.20498">(Aghakouchak &amp; Mehran, 2013)</a></td>
+</tr>
+<tr class="even">
+<td align="left">VFAR</td>
+<td align="left">Volumetric False Alarm Ratio</td>
+<td align="center">0</td>
+<td align="center">Volumetric</td>
+<td align="left"><a href="https://doi.org/10.1029/2010JD014741">(Aghakouchak et al., 2011)</a> and <a href="https://doi.org/10.1002/wrcr.20498">(Aghakouchak &amp; Mehran, 2013)</a></td>
+</tr>
+<tr class="odd">
+<td align="left">QFAR</td>
+<td align="left">Quantile False Alarm Ratio</td>
+<td align="center">0</td>
+<td align="center">Volumetric</td>
+<td align="left"><a href="https://doi.org/10.1029/2010JD014741">(Aghakouchak et al., 2011)</a> and <a href="https://doi.org/10.1002/wrcr.20498">(Aghakouchak &amp; Mehran, 2013)</a></td>
+</tr>
+<tr class="even">
+<td align="left">VMI</td>
+<td align="left">Volumetric Miss Index</td>
+<td align="center">0</td>
+<td align="center">Volumetric</td>
+<td align="left"><a href="https://doi.org/10.1029/2010JD014741">(Aghakouchak et al., 2011)</a> and <a href="https://doi.org/10.1002/wrcr.20498">(Aghakouchak &amp; Mehran, 2013)</a></td>
+</tr>
+<tr class="odd">
+<td align="left">QMISS</td>
+<td align="left">Quantile Miss Index</td>
+<td align="center">0</td>
+<td align="center">Volumetric</td>
+<td align="left"><a href="https://doi.org/10.1029/2010JD014741">(Aghakouchak et al., 2011)</a> and <a href="https://doi.org/10.1002/wrcr.20498">(Aghakouchak &amp; Mehran, 2013)</a></td>
+</tr>
+<tr class="even">
+<td align="left">VCSI</td>
+<td align="left">Volumetric Critical Success Index</td>
+<td align="center">1</td>
+<td align="center">Volumetric</td>
+<td align="left"><a href="https://doi.org/10.1029/2010JD014741">(Aghakouchak et al., 2011)</a> and <a href="https://doi.org/10.1002/wrcr.20498">(Aghakouchak &amp; Mehran, 2013)</a></td>
+</tr>
+<tr class="odd">
+<td align="left">QCSI</td>
+<td align="left">Quantile Critical Success Index</td>
+<td align="center">1</td>
+<td align="center">Volumetric</td>
+<td align="left"><a href="https://doi.org/10.1029/2010JD014741">(Aghakouchak et al., 2011)</a> and <a href="https://doi.org/10.1002/wrcr.20498">(Aghakouchak &amp; Mehran, 2013)</a></td>
 </tr>
 </tbody>
 </table>
-<p><strong><em>Each Station</em></strong>: the validation statistics are computed for each pair of series constituted by the station from <em>station-observation</em> and <em>gridded-extracted</em> respectively.</p></li>
-<li><p>To create the contingency table to be used to compute the categorical statistics, click on <span class="buttonclass">     Categorical Statistics Parameters   </span>   button. It displays a dialog box allowing you to select the operator to be applied and the the threshold to be used.</p></li>
-</ol>
-<br>
-<center>
-<img src="../images/validation/categorical_statistics_setting.png" style="width:30.0%;height:13.0%" />
-</center>
-<p><br></p>
-<ol start="7" style="list-style-type: decimal">
-<li><p>In case of precipitation data, click on <span class="buttonclass">     Volumetric Statistics Parameters   </span>   button to set the parameters to use to compute the volumetric statistics. It displays a dialog box allowing you to specify the threshold to be used.</p>
-<p><br></p>
-<center>
-<p><img src="../images/validation/volumetric_statistics_settings.png" style="width:30.0%;height:17.0%" /></p>
-</center>
-<p><br></p>
-<p>If you want to use a specific threshold above which the statistics will be computed, check the box <img src='../images/common/checkbox.png' title='Checkbox' class='radiochckbutclass' /><span class="radiochcktextclass">   User specified values   </span>  .<br />
-If you selected <strong><em>All Data</em></strong> or <strong><em>Spatial Average</em></strong> as method used to transform the data, enter the value of the threshold to be used.</p>
-<p><br></p>
-<center>
-<p><img src="../images/validation/volumetric_stats_user_thres.png" style="width:30.0%;height:6.0%" /></p>
-</center>
-<p><br></p>
-<p>In case of <strong><em>Each Station</em></strong>, if you want to use a unique threshold for all stations, check the box <img src='../images/common/checkbox.png' title='Checkbox' class='radiochckbutclass' /><span class="radiochcktextclass">   Use a unique threshold value   </span>   then enter the value of the threshold to be used.</p>
-<p><br></p>
-<center>
-<p><img src="../images/validation/volumetric_stats_stn1.png" style="width:30.0%;height:9.0%" /></p>
-</center>
-<p><br></p>
-<p>If you want to use different threshold for each station, uncheck the box <img src='../images/common/checkbox.png' title='Checkbox' class='radiochckbutclass' /><span class="radiochcktextclass">   Use a unique threshold value   </span>   and select or open the file containing the threshold values.</p>
-<p><br></p>
-<center>
-<p><img src="../images/validation/volumetric_stats_stn2.png" style="width:30.0%;height:11.0%" /></p>
-</center>
-<p><br></p>
-<p>The threshold data must be in CDT station format, the number and order of the stations have to be the same as the station observation used to validate (<em>station-observation</em>). It may be a percentile data already computed or any threshold values you want. Below is an example of the threshold data related to the example provided above.</p>
-<p><br></p>
-<center>
-<p><img src="../images/validation/volumetric_stats_stn3.png" style="width:50.0%;height:9.0%" /></p>
-</center>
-<p><br></p>
-<p>If you want to use a thresholds using a percentile computed from the input data (observed or estimated data),<br />
-uncheck the box <img src='../images/common/checkbox.png' title='Checkbox' class='radiochckbutclass' /><span class="radiochcktextclass">   User specified values   </span>  , then select the source of data you want to compute the percentile: <em>Observed Data</em> or <em>Estimated Data</em>, and enter the percentile to be calculated.</p>
-<p><br></p>
-<center>
-<p><img src="../images/validation/volumetric_stats_percentile.png" style="width:30.0%;height:6.0%" /></p>
-</center>
-<p><br></p>
-<p>In case of <strong><em>Spatial Average</em></strong> and <strong><em>Each Station</em></strong>, specify the <a href="selecting_period.html#base.period">base period</a> over which the percentile will be calculated by clicking on the button <span class="buttonclass">     Set Base Period   </span>  .</p></li>
-<li><p>Click the button <span class="buttonclass">     Calculate Statistics   </span>   to compute the validations statistics.</p></li>
-</ol>
+<p><strong><em>References</em></strong>:</p>
+<p>AghaKouchak, A., Behrangi , A., Sorooshian , S., Hsu , K., and Amitai , E. (2011): Evaluation of satellite-retrieved extreme precipitation rates across the Central United States. Journal of Geophysical Research, 116, D02115, <a href="doi:10.1029/2010JD014741" class="uri">doi:10.1029/2010JD014741</a>.</p>
+<p>AghaKouchak, A., and Mehran , A. (2013): Extended Contingency Table: Performance Metrics for Satellite Observations and Model Simulations. Water Resources Research, <a href="doi:10.1002/wrcr.20498" class="uri">doi:10.1002/wrcr.20498</a>.</p>
 <p><br />
-<br />
-A folder named <strong>VALIDATION_</strong>&lt;<em>name of the file containing the station data used to validate</em>&gt; is created under the folder you provided to save the output. It contains the file <strong>VALIDATION_DATA_OUT.rds</strong> and two folders <strong>OBS_GRD_DATA</strong> and <strong>STATISTICS_DATA</strong></p>
-<ul>
-<li><strong>OBS_GRD_DATA</strong>: contains 2 files, the observed data used to validate <strong>Observations.csv</strong> the gridded data extarcted at the station locations <strong>Gridded_at_Obs_Loc.csv</strong>.</li>
-<li><strong>STATISTICS_DATA</strong> contains 3 types of files in the form
-<ul>
-<li><p><strong>All_Data_Statistics</strong>_&lt;<strong><em>temporal resolution</em></strong>&gt;_&lt;<strong><em>moths or season</em></strong>&gt;_&lt;<strong><em>period</em></strong>&gt;<strong>.csv</strong>: contains the statistics computed using <strong><em>All Data</em></strong> method.</p></li>
-<li><p><strong>Spatial_Average_Statistics</strong>_&lt;<strong><em>temporal resolution</em></strong>&gt;_&lt;<strong><em>moths or season</em></strong>&gt;_&lt;<strong><em>period</em></strong>&gt;<strong>.csv</strong>: contains the statistics computed using <strong><em>Spatial Average</em></strong> method.</p></li>
-<li><p><strong>Stations_Statistics</strong>_&lt;<strong><em>temporal resolution</em></strong>&gt;_&lt;<strong><em>moths or season</em></strong>&gt;_&lt;<strong><em>period</em></strong>&gt;<strong>.csv</strong>: contains the statistics computed using <strong><em>Each Station</em></strong> method.</p>
-<p>Where &lt;<strong><em>temporal resolution</em></strong>&gt; is one of daily, pentad, dekadal, monthly or seasonal; &lt;<strong><em>moths or season</em></strong>&gt; the months or season used to compute the statistics; &lt;<strong><em>period</em></strong>&gt; the period over which the statistics were computed.</p></li>
-</ul></li>
-</ul>
+</p>
 
 <footer class="navbar navbar-inverse  navbar-fixed-bottom">
     <p>

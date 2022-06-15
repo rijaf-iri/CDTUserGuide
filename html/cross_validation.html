@@ -589,14 +589,128 @@ div.tocify {
 </div>
 
 
-<!--
-image dir /images/gridding/cross_validation
--->
-<div id="precipitation-data" class="section level2">
-<h2>Precipitation Data <a name="rr.cv.mrg"></a></h2>
+<p>CDT offers a Leave-One-Out Cross-Validation (LOOCV) to evaluate the performance of the method used for the interpolation and merging, or the parameters used to perform the merging. LOOCV can be a time-consuming process and computationally expensive with a large datasets. LOOCV is consisting of excluding one observation successively and performing the merging with the remaining observations to predict the value at the excluded observation location, then the excluded observation is put back to the observations data.</p>
+<div id="climate-data" class="section level2">
+<h2>Climate data <a name="clim.cv.mrg"></a></h2>
+<p>The menu <span class="menuselection">Gridding ‣ Merging - Cross-Validation ‣ &lt;<em>name of the climate variable</em>&gt; Data</span>   allows to perform a leave-one-out cross-validation to evaluate the performance of the interpolation and merging method, or the parameters used to perform the merging, where &lt;<em>name of the climate variable</em>&gt; is one of rainfall, temperature, relative humidity, radiation and pressure data.</p>
+<br>
+<center>
+<img src="../images/gridding/cross_validation/cv_clim_data.png" style="width:44.0%;height:50.0%" />
+</center>
+<p><br></p>
+<ol style="list-style-type: decimal">
+<li><p>Select the temporal resolution of the data. Available temporal resolution are: <em>daily</em>, <em>pentad</em>, <em>dekadal</em> and <em>monthly data</em>.</p></li>
+<li><p>Set the start and end date of the period over which the LOOCV will be performed. See <a href="cdt_data_input.html#cdt.date.range">setting date range</a> for more details.</p></li>
+<li><p>Select the file containing the station data (in CDT station data format) to use from the drop down list if it is already loaded, or open it through <img src="../images/common/browsefiledir.png" title="Browse for a file" id="cdtIconsBr" class="cdtIconsBr" />.</p></li>
+<li><p>Type the full path to the folder containing the netCDF files or browse it from the button <img src="../images/common/browsefiledir.png" title="Browse for a file" id="cdtIconsBr" class="cdtIconsBr" /> on the right.</p></li>
+<li><p>Provide a netCDF sample file and change the filename format of the netCDF file through the <a href="cdt_data_input.html#cdt.ncdf.setting">netCDF settings</a> dialog by clicking on the <span class="buttonclass">   Settings </span>   button.</p></li>
+<li><p>Type the full path to the folder to save the output, or use the browse button <img src="../images/common/browsefiledir.png" title="Browse for a file" id="cdtIconsBr" class="cdtIconsBr" />.</p></li>
+<li><p>Select the method to use to merge the data. CDT has 4 methods to compute the bias coefficients: <strong><em>Simple Bias Adjustment</em></strong>, <strong><em>Regression Kriging</em></strong>, <strong><em>Cressman Scheme</em></strong> and <strong><em>Barnes Scheme</em></strong>. See <a href="merging_methods.html">CDT merging methods</a> page for more information.</p>
+<p>In case of <strong><em>Regression Kriging</em></strong>, you have to provide the auxiliaries variables to be used. An frame is displayed allowing you to select the variables to use. You can use one or more auxiliaries variables. Available choices are <strong><em>elevation</em></strong>, <strong><em>slope</em></strong>, <strong><em>aspect</em></strong>, <strong><em>longitude</em></strong> and <strong><em>latitude</em></strong> data. You include one of the <strong><em>elevation</em></strong>, <strong><em>slope</em></strong> or <strong><em>aspect</em></strong> data as auxiliary variable, you will need to provide the elevation data (in netCDF format). The slope and aspect are computed from the digital elevation model you provided.</p>
+<p><br></p>
+<center>
+<p><img src="../images/gridding/cross_validation/cv_rk_merging.png" style="width:50.0%;height:20.0%" /></p>
+</center>
+<p><br></p></li>
+<li><p>Specify the number of nested run to be performed, then edit the pass ratio for each run separated by comma. The number of run must be equal to the length of the pass ratio. Refer to the <a href="merging_methods.html#merging.nested.run">CDT merging nested run</a> page for more information</p></li>
+<li><p>Click on the button <span class="buttonclass">     Merging Interpolation Parameters   </span>   to open the <a href="interpolation_dialog.html">interpolation dialog</a> to select the interpolation method to be used and set the all parameters for the interpolation.</p>
+<p><br></p>
+<center>
+<p><img src="../images/gridding/merging_data/merging_interp_parameter.png" style="width:50.0%;height:30.0%" /></p>
+</center>
+<p><br></p>
+<p>By default, CDT uses a fixed search radius defined by <em>maxdist</em>, which means that all the stations used to interpolate a grid node are selected within a radius <em>maxdist</em>. CDT can allow you to select the stations used to interpolate a grid node by only providing <em>nmin</em> and <em>nmax</em>; this implies that <em>maxdist</em> is variable, <em>maxdist</em> is small over the region with high density of station and becomes large over the region with sparse stations. Check <img src='../images/common/checkbox.png' title='Checkbox' class='radiochckbutclass' /><span class="radiochcktextclass">   Use variable radius of influence for each grid   </span>   to use non fixed <em>maxdist</em>. See <a href="interpolation_methods.html#var.maxdist">variable search radius</a> for more details.</p></li>
+<li><p>In case of rainfall data, check <img src='../images/common/checkbox.png' title='Checkbox' class='radiochckbutclass' /><span class="radiochcktextclass">   Apply Rain-no-Rain Mask   </span>   box to create a mask over the region there is no observed rain from the stations. See the method used for the <a href="merging_methods.html#rain.no.rain">application of a rain-no-rain mask</a> for more details. Specify the threshold to define the a no rain value, below this threshold the rainfall is set to zero and one above for the mask. To prevent a steep gradient in the interpolated mask, check <img src='../images/common/checkbox.png' title='Checkbox' class='radiochckbutclass' /><span class="radiochcktextclass">   Smooth Rain-no-Rain Mask   </span>   box to apply a spatial smoothing in the interpolated mask.</p></li>
+<li><p>Select the way the stations to be used for the cross-validation will be selected. CDT provides 3 ways to select the stations: <strong><em>All stations from the input</em></strong>, <strong><em>From file provided by user</em></strong> and <strong><em>CDT Selection</em></strong>.</p>
+<ul>
+<li><strong><em>All stations from the input</em></strong>: all the stations in the input data provided in (<strong>3</strong>) will be used to carry out the LOOCV.</li>
+<li><strong><em>From file provided by user</em></strong>: you can provide the file containing the stations to be used. The stations can be obtained from a <em>CDT stations data format</em> or <em>CDT coordinates file</em>.<br />
+<br>
+<center>
+<img src="../images/gridding/cross_validation/cv_select_station.png" style="width:45.0%;height:15.0%" />
+</center>
+<br></li>
+<li><strong><em>CDT Selection</em></strong>: the stations will be selected from the input data provided in (<strong>3</strong>) in such a way that they are spatially well distributed and contain a minimum percentage (to be specified by the user) of non missing observations over the period to perform the LOOCV.<br />
+<br>
+<center>
+<img src="../images/gridding/cross_validation/cv_select_cdt.png" style="width:45.0%;height:8.0%" />
+</center>
+<br></li>
+</ul></li>
+</ol>
+<p><br />
+<br />
+Click on the button <img src="../images/common/execute24.gif" title="Execute the append task" id="cdtIcons" class="cdtIcons" /> to start the LOOCV.</p>
+<p>A folder named <strong>CrossValidation_</strong>&lt;<strong><em>name of climate variable</em></strong>&gt;_<strong>Data</strong>_&lt;<strong><em>start date</em></strong>&gt;_&lt;<strong><em>end date</em></strong>&gt; will be created under the folder you provided to save the outputs. It contains two files, <strong>STATIONS_DATA.csv</strong> containing the stations observation data and <strong>CROSS-VALIDATION_DATA.csv</strong> containing the predicted values from LOOCV.</p>
+<p><br />
+</p>
 </div>
-<div id="temperature-data" class="section level2">
-<h2>Temperature Data <a name="tt.cv.mrg"></a></h2>
+<div id="wind-data" class="section level2">
+<h2>Wind data <a name="wind.cv.mrg"></a></h2>
+<p>The menu <span class="menuselection">Gridding ‣ Merging - Cross-Validation ‣ Wind Data</span>   allows to perform a leave-one-out cross-validation to evaluate the performance of the interpolation and merging method, or the parameters used to perform the merging for wind data.</p>
+<br>
+<center>
+<img src="../images/gridding/cross_validation/cv_wind_data.png" style="width:46.0%;height:50.0%" />
+</center>
+<p><br></p>
+<ol style="list-style-type: decimal">
+<li><p>Select the temporal resolution of the data. Available temporal resolution are: <em>daily</em>, <em>pentad</em>, <em>dekadal</em> and <em>monthly data</em>.</p></li>
+<li><p>Set the start and end date of the period over which the LOOCV will be performed. See <a href="cdt_data_input.html#cdt.date.range">setting date range</a> for more details.</p></li>
+<li><p>Select the wind variables to be used: wind <strong><em>Speed</em></strong> only or the <strong><em>U and V components</em></strong> of the wind data.</p></li>
+<li><p>If the <strong><em>wind speed</em></strong> is selected in (<strong>3</strong>), provide the file containing the wind speed data (in CDT station data format) to use. In case of <strong><em>U and V components</em></strong>, you have to provide the files containing the station data for U-component and V-component of the wind data (in CDT station data format). You can select the files from the drop down list if it is already loaded, or open it through <img src="../images/common/browsefiledir.png" title="Browse for a file" id="cdtIconsBr" class="cdtIconsBr" />.</p></li>
+</ol>
+<br>
+<center>
+<img src="../images/gridding/merging_data/wind_merging_uv_stn.png" style="width:45.0%;height:27.0%" />
+</center>
+<p><br></p>
+<ol start="5" style="list-style-type: decimal">
+<li>If the <strong><em>wind speed</em></strong> is selected in (<strong>3</strong>), type the full path to the folder containing the netCDF files or browse it from the button <img src="../images/common/browsefiledir.png" title="Browse for a file" id="cdtIconsBr" class="cdtIconsBr" /> on the right. In case of <strong><em>U and V components</em></strong>, provide the full path to the folder containing the netCDF wind data files; if the U and V components are stored in separate files, uncheck <img src='../images/common/checkbox.png' title='Checkbox' class='radiochckbutclass' /><span class="radiochcktextclass">   U and V components are in one NetCDF file   </span>   and provide the full paths to the folder containing the netCDF U-component and V-component files.</li>
+</ol>
+<br>
+<center>
+<img src="../images/gridding/merging_data/wind_merging_uv_nc.png" style="width:45.0%;height:18.0%" />
+</center>
+<p><br></p>
+<ol start="6" style="list-style-type: decimal">
+<li><p>Provide a netCDF sample file and change the filename format of the netCDF file through the <a href="cdt_data_input.html#cdt.ncdf.setting">netCDF settings</a> dialog by clicking on the <span class="buttonclass">   Settings </span>   button.</p></li>
+<li><p>Type the full path to the folder to save the output, or use the browse button <img src="../images/common/browsefiledir.png" title="Browse for a file" id="cdtIconsBr" class="cdtIconsBr" />.</p></li>
+<li><p>Select the method to use to merge the data. CDT has 4 methods to compute the bias coefficients: <strong><em>Simple Bias Adjustment</em></strong>, <strong><em>Regression Kriging</em></strong>, <strong><em>Cressman Scheme</em></strong> and <strong><em>Barnes Scheme</em></strong>. See <a href="merging_methods.html">CDT merging methods</a> page for more information.</p>
+<p>In case of <strong><em>Regression Kriging</em></strong>, you have to provide the auxiliaries variables to be used. An frame is displayed allowing you to select the variables to use. You can use one or more auxiliaries variables. Available choices are <strong><em>elevation</em></strong>, <strong><em>slope</em></strong>, <strong><em>aspect</em></strong>, <strong><em>longitude</em></strong> and <strong><em>latitude</em></strong> data. You include one of the <strong><em>elevation</em></strong>, <strong><em>slope</em></strong> or <strong><em>aspect</em></strong> data as auxiliary variable, you will need to provide the elevation data (in netCDF format). The slope and aspect are computed from the digital elevation model you provided.</p>
+<p><br></p>
+<center>
+<p><img src="../images/gridding/cross_validation/cv_rk_merging.png" style="width:50.0%;height:20.0%" /></p>
+</center>
+<p><br></p></li>
+<li><p>Specify the number of nested run to be performed, then edit the pass ratio for each run separated by comma. The number of run must be equal to the length of the pass ratio. Refer to the <a href="merging_methods.html#merging.nested.run">CDT merging nested run</a> page for more information</p></li>
+<li><p>Click on the button <span class="buttonclass">     Merging Interpolation Parameters   </span>   to open the <a href="interpolation_dialog.html">interpolation dialog</a> to select the interpolation method to be used and set the all parameters for the interpolation.</p>
+<p><br></p>
+<center>
+<p><img src="../images/gridding/merging_data/merging_interp_parameter.png" style="width:50.0%;height:30.0%" /></p>
+</center>
+<p><br></p>
+<p>By default, CDT uses a fixed search radius defined by <em>maxdist</em>, which means that all the stations used to interpolate a grid node are selected within a radius <em>maxdist</em>. CDT can allow you to select the stations used to interpolate a grid node by only providing <em>nmin</em> and <em>nmax</em>; this implies that <em>maxdist</em> is variable, <em>maxdist</em> is small over the region with high density of station and becomes large over the region with sparse stations. Check <img src='../images/common/checkbox.png' title='Checkbox' class='radiochckbutclass' /><span class="radiochcktextclass">   Use variable radius of influence for each grid   </span>   to use non fixed <em>maxdist</em>. See <a href="interpolation_methods.html#var.maxdist">variable search radius</a> for more details.</p></li>
+<li><p>Select the way the stations to be used for the cross-validation will be selected. CDT provides 3 ways to select the stations: <strong><em>All stations from the input</em></strong>, <strong><em>From file provided by user</em></strong> and <strong><em>CDT Selection</em></strong>.</p>
+<ul>
+<li><strong><em>All stations from the input</em></strong>: all the stations in the input data provided in (<strong>4</strong>) will be used to carry out the LOOCV.</li>
+<li><strong><em>From file provided by user</em></strong>: you can provide the file containing the stations to be used. The stations can be obtained from a <em>CDT stations data format</em> or <em>CDT coordinates file</em>.<br />
+<br>
+<center>
+<img src="../images/gridding/cross_validation/cv_select_station.png" style="width:45.0%;height:15.0%" />
+</center>
+<br></li>
+<li><strong><em>CDT Selection</em></strong>: the stations will be selected from the input data provided in (<strong>4</strong>) in such a way that they are spatially well distributed and contain a minimum percentage (to be specified by the user) of non missing observations over the period to perform the LOOCV.<br />
+<br>
+<center>
+<img src="../images/gridding/cross_validation/cv_select_cdt.png" style="width:45.0%;height:8.0%" />
+</center>
+<br></li>
+</ul></li>
+</ol>
+<p><br />
+<br />
+Click on the button <img src="../images/common/execute24.gif" title="Execute the append task" id="cdtIcons" class="cdtIcons" /> to start the LOOCV.</p>
+<p>A folder named <strong>CrossValidation_Wind_Data</strong>_&lt;<strong><em>start date</em></strong>&gt;_&lt;<strong><em>end date</em></strong>&gt; will be created under the folder you provided to save the outputs. If the <strong><em>wind speed</em></strong> is selected in (<strong>3</strong>), this folder contains two files, <strong>STATIONS_DATA_wspd.csv</strong> containing the wind speed observation data and <strong>CROSS-VALIDATION_DATA_wspd.csv</strong> containing the predicted wind speed values from LOOCV. In case of <strong><em>U and V components</em></strong>, the folder contains 4 files <strong>STATIONS_DATA_U.csv</strong> containing the zonal velocity from station observations, <strong>STATIONS_DATA_V.csv</strong> containing the meridional velocity from station observations, <strong>CROSS-VALIDATION_DATA_U.csv</strong> containing the predicted zonal velocity and <strong>CROSS-VALIDATION_DATA_V.csv</strong> containing the predicted meridional velocity.</p>
 </div>
 
 <footer class="navbar navbar-inverse  navbar-fixed-bottom">
